@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" data-i18n="meta.description"
+    content="Jire Orinoco — Energía y petróleo de Venezuela para el mundo. Exploración, producción y refinación responsable." />
+  <title data-i18n="meta.title">Jire Orinoco · Energía que mueve a Venezuela</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="mask-icon" href="logo.svg" color="#ef7d34" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Reusable logo sprite ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="jo-logo" viewBox="0 0 64 64">
+      <defs>
+        <linearGradient id="jo-hex-g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a3445"/>
+          <stop offset="1" stop-color="#11161f"/>
+        </linearGradient>
+        <linearGradient id="jo-drop-g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ffcf6a"/>
+          <stop offset="1" stop-color="#ef7d34"/>
+        </linearGradient>
+      </defs>
+      <polygon points="32,4 56,18 56,46 32,60 8,46 8,18"
+        fill="url(#jo-hex-g)" stroke="#3c4a60" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M32 15 C 39 26 44 31 44 38 A 12 12 0 1 1 20 38 C 20 31 25 26 32 15 Z"
+        fill="url(#jo-drop-g)"/>
+      <path d="M21 40 C 25 36 28 44 32 40 C 35 37 39 41 43 39"
+        fill="none" stroke="#11161f" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+    </symbol>
+  </svg>
+
+  <!-- ===== Header / Nav ===== -->
+  <header class="site-header" id="top">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="Jire Orinoco">
+        <span class="brand-mark" aria-hidden="true">
+          <svg class="logo-mark" viewBox="0 0 64 64"><use href="#jo-logo" /></svg>
+        </span>
+        <span class="brand-name">Jire<strong>Orinoco</strong></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#about" data-i18n="nav.about">Nosotros</a>
+        <a href="#services" data-i18n="nav.services">Servicios</a>
+        <a href="#stats" data-i18n="nav.impact">Impacto</a>
+        <a href="#sustainability" data-i18n="nav.sustainability">Sostenibilidad</a>
+        <a href="#contact" data-i18n="nav.contact">Contacto</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Cambiar idioma">
+          <span class="lang-opt" data-lang="es">ES</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-opt" data-lang="en">EN</span>
+        </button>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema" title="Modo nocturno">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" /><g stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/>
+            <line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/>
+            <line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/>
+            <line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></g>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Faja Petrolífera del Orinoco · Venezuela</p>
+        <h1 class="hero-title" data-i18n="hero.title">Energía que mueve a Venezuela hacia el futuro</h1>
+        <p class="hero-sub" data-i18n="hero.sub">
+          Exploramos, producimos y refinamos petróleo con tecnología de vanguardia y
+          compromiso con las comunidades y el ambiente.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary" data-i18n="hero.cta1">Trabajemos juntos</a>
+          <a href="#services" class="btn btn-ghost" data-i18n="hero.cta2">Conoce nuestros servicios</a>
+        </div>
+        <div class="hero-badges">
+          <span data-i18n="hero.badge1">+40 años de experiencia</span>
+          <span data-i18n="hero.badge2">Operaciones 24/7</span>
+          <span data-i18n="hero.badge3">Estándares HSE internacionales</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="section" id="about">
+      <div class="container grid-2">
+        <div>
+          <p class="kicker" data-i18n="about.kicker">Nosotros</p>
+          <h2 data-i18n="about.title">Una empresa venezolana con visión global</h2>
+          <p class="lead" data-i18n="about.p1">
+            Desde el corazón de la Faja Petrolífera del Orinoco, integramos toda la cadena
+            de valor del petróleo: desde la exploración geológica hasta la entrega del
+            producto final a mercados internacionales.
+          </p>
+          <p data-i18n="about.p2">
+            Nuestra gente, tecnología y procesos están alineados con los más altos
+            estándares de seguridad, calidad y responsabilidad ambiental.
+          </p>
+        </div>
+        <ul class="value-list">
+          <li>
+            <span class="value-ico">⛽</span>
+            <div><strong data-i18n="about.v1t">Cadena integrada</strong>
+            <p data-i18n="about.v1p">Upstream, midstream y downstream bajo un mismo techo.</p></div>
+          </li>
+          <li>
+            <span class="value-ico">🛰️</span>
+            <div><strong data-i18n="about.v2t">Tecnología</strong>
+            <p data-i18n="about.v2p">Monitoreo digital y analítica de datos en tiempo real.</p></div>
+          </li>
+          <li>
+            <span class="value-ico">🤝</span>
+            <div><strong data-i18n="about.v3t">Comunidad</strong>
+            <p data-i18n="about.v3p">Inversión social en las regiones donde operamos.</p></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Services ===== -->
+    <section class="section section-alt" id="services">
+      <div class="container">
+        <div class="section-head">
+          <p class="kicker" data-i18n="services.kicker">Servicios</p>
+          <h2 data-i18n="services.title">Lo que hacemos</h2>
+          <p class="section-desc" data-i18n="services.desc">Soluciones integrales a lo largo de toda la cadena energética.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-ico">🔎</div>
+            <h3 data-i18n="services.s1t">Exploración</h3>
+            <p data-i18n="services.s1p">Estudios geológicos y sísmicos para localizar reservas con precisión.</p>
+          </article>
+          <article class="card">
+            <div class="card-ico">🛢️</div>
+            <h3 data-i18n="services.s2t">Producción</h3>
+            <p data-i18n="services.s2p">Extracción eficiente de crudo pesado y extrapesado del Orinoco.</p>
+          </article>
+          <article class="card">
+            <div class="card-ico">🏭</div>
+            <h3 data-i18n="services.s3t">Refinación</h3>
+            <p data-i18n="services.s3p">Procesamiento y mejoramiento de crudo en derivados de alto valor.</p>
+          </article>
+          <article class="card">
+            <div class="card-ico">🚢</div>
+            <h3 data-i18n="services.s4t">Logística</h3>
+            <p data-i18n="services.s4p">Transporte y distribución segura a mercados nacionales e internacionales.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Stats ===== -->
+    <section class="section stats" id="stats">
+      <div class="container stats-grid">
+        <div class="stat">
+          <span class="stat-num" data-count="1200" data-suffix="K">0</span>
+          <span class="stat-label" data-i18n="stats.s1">Barriles producidos / día</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="40" data-suffix="+">0</span>
+          <span class="stat-label" data-i18n="stats.s2">Años de trayectoria</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="3500" data-suffix="+">0</span>
+          <span class="stat-label" data-i18n="stats.s3">Colaboradores</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" data-count="18" data-suffix="">0</span>
+          <span class="stat-label" data-i18n="stats.s4">Mercados de exportación</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Sustainability ===== -->
+    <section class="section" id="sustainability">
+      <div class="container grid-2">
+        <div class="susta-card" aria-hidden="true">
+          <div class="susta-orb"></div>
+          <div class="susta-leaf">🌱</div>
+        </div>
+        <div>
+          <p class="kicker" data-i18n="susta.kicker">Sostenibilidad</p>
+          <h2 data-i18n="susta.title">Energía hoy, responsabilidad para mañana</h2>
+          <p class="lead" data-i18n="susta.p1">
+            Reducimos nuestra huella ambiental con captura de gas, reinyección de agua y
+            programas de reforestación en zonas de operación.
+          </p>
+          <ul class="check-list">
+            <li data-i18n="susta.l1">Reducción progresiva de emisiones de carbono</li>
+            <li data-i18n="susta.l2">Gestión responsable del agua y los suelos</li>
+            <li data-i18n="susta.l3">Transición gradual hacia energías más limpias</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact / CTA ===== -->
+    <section class="section section-cta" id="contact">
+      <div class="container cta-inner">
+        <h2 data-i18n="contact.title">Construyamos el futuro energético juntos</h2>
+        <p data-i18n="contact.desc">Cuéntanos tu proyecto y un especialista te contactará.</p>
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="field">
+            <input type="text" id="name" name="name" required placeholder=" " />
+            <label for="name" data-i18n="contact.name">Nombre</label>
+          </div>
+          <div class="field">
+            <input type="email" id="email" name="email" required placeholder=" " />
+            <label for="email" data-i18n="contact.email">Correo electrónico</label>
+          </div>
+          <div class="field field-full">
+            <textarea id="message" name="message" rows="4" placeholder=" "></textarea>
+            <label for="message" data-i18n="contact.message">Mensaje</label>
+          </div>
+          <button type="submit" class="btn btn-primary" data-i18n="contact.submit">Enviar mensaje</button>
+          <p class="form-note" id="formNote" hidden data-i18n="contact.note">¡Gracias! Te contactaremos pronto.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">
+          <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg>
+          <span class="brand-name">Jire<strong>Orinoco</strong></span>
+        </span>
+        <p data-i18n="footer.tagline">Energía y petróleo de Venezuela para el mundo.</p>
+      </div>
+      <div class="footer-meta">
+        <p data-i18n="footer.address">Puerto Ordaz, Estado Bolívar · Venezuela</p>
+        <p>© <span id="year"></span> Jire Orinoco. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
