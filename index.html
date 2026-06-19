@@ -1,256 +1,266 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" data-i18n="meta.description"
-    content="Jire Orinoco — Energía y petróleo de Venezuela para el mundo. Exploración, producción y refinación responsable." />
-  <title data-i18n="meta.title">Jire Orinoco · Energía que mueve a Venezuela</title>
+  <meta name="description" data-i18n="meta.desc"
+    content="JIRE ORINOCO — Empresa venezolana de servicios para generación eléctrica, gas y petróleo. Representación, suministro y operación en campo." />
+  <title data-i18n="meta.title">JIRE ORINOCO · Energía, Gas y Petróleo</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
-  <link rel="mask-icon" href="logo.svg" color="#ef7d34" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- ===== Reusable logo sprite ===== -->
+  <!-- Fondos de color para refracción del cristal -->
+  <div class="ambient" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  </div>
+
+  <!-- Logo sprite reutilizable -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <symbol id="jo-logo" viewBox="0 0 64 64">
       <defs>
         <linearGradient id="jo-hex-g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#2a3445"/>
-          <stop offset="1" stop-color="#11161f"/>
+          <stop offset="0" stop-color="#222a1d"/><stop offset="1" stop-color="#10130f"/>
         </linearGradient>
         <linearGradient id="jo-drop-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffcf6a"/>
-          <stop offset="1" stop-color="#ef7d34"/>
+          <stop offset="0" stop-color="#ffd528"/><stop offset="1" stop-color="#3fb964"/>
         </linearGradient>
       </defs>
-      <polygon points="32,4 56,18 56,46 32,60 8,46 8,18"
-        fill="url(#jo-hex-g)" stroke="#3c4a60" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M32 15 C 39 26 44 31 44 38 A 12 12 0 1 1 20 38 C 20 31 25 26 32 15 Z"
-        fill="url(#jo-drop-g)"/>
-      <path d="M21 40 C 25 36 28 44 32 40 C 35 37 39 41 43 39"
-        fill="none" stroke="#11161f" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+      <polygon points="32,4 56,18 56,46 32,60 8,46 8,18" fill="url(#jo-hex-g)" stroke="#3a4a32" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M32 15 C 39 26 44 31 44 38 A 12 12 0 1 1 20 38 C 20 31 25 26 32 15 Z" fill="url(#jo-drop-g)"/>
+      <path d="M21 40 C 25 36 28 44 32 40 C 35 37 39 41 43 39" fill="none" stroke="#10130f" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
     </symbol>
   </svg>
 
-  <!-- ===== Header / Nav ===== -->
+  <!-- ===== Header ===== -->
   <header class="site-header" id="top">
-    <div class="container nav">
-      <a href="#top" class="brand" aria-label="Jire Orinoco">
-        <span class="brand-mark" aria-hidden="true">
-          <svg class="logo-mark" viewBox="0 0 64 64"><use href="#jo-logo" /></svg>
-        </span>
-        <span class="brand-name">Jire<strong>Orinoco</strong></span>
+    <div class="wrap nav">
+      <a href="#top" class="brand">
+        <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg>
+        <span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Energía · Gas · Petróleo</small></span>
       </a>
-
-      <nav class="nav-links" aria-label="Principal">
-        <a href="#about" data-i18n="nav.about">Nosotros</a>
-        <a href="#services" data-i18n="nav.services">Servicios</a>
-        <a href="#stats" data-i18n="nav.impact">Impacto</a>
-        <a href="#sustainability" data-i18n="nav.sustainability">Sostenibilidad</a>
-        <a href="#contact" data-i18n="nav.contact">Contacto</a>
+      <nav class="navlinks" aria-label="Principal">
+        <a href="#servicios" data-i18n="nav.services">Servicios</a>
+        <a href="#nosotros" data-i18n="nav.about">Quiénes somos</a>
+        <a href="#productos" data-i18n="nav.products">Productos</a>
+        <div class="nav-actions">
+          <button class="lang-toggle" id="langToggle" type="button" aria-label="Idioma">
+            <span class="lang-opt" data-lang="es">ES</span><span class="sep">/</span><span class="lang-opt" data-lang="en">EN</span>
+          </button>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Tema">
+            <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="5"/><g stroke-width="2"><line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/><line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/><line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/><line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></g></svg>
+            <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+          </button>
+          <a href="#contacto" class="navbtn" data-i18n="nav.contact">Contáctanos</a>
+        </div>
       </nav>
-
-      <div class="nav-actions">
-        <button class="lang-toggle" id="langToggle" type="button" aria-label="Cambiar idioma">
-          <span class="lang-opt" data-lang="es">ES</span>
-          <span class="lang-sep">/</span>
-          <span class="lang-opt" data-lang="en">EN</span>
-        </button>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar tema" title="Modo nocturno">
-          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <circle cx="12" cy="12" r="5" /><g stroke-width="2">
-            <line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/>
-            <line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/>
-            <line x1="4.2" y1="4.2" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.8" y2="19.8"/>
-            <line x1="4.2" y1="19.8" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.8" y2="4.2"/></g>
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
-          </svg>
-        </button>
-      </div>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Menú">☰</button>
     </div>
   </header>
 
   <main>
     <!-- ===== Hero ===== -->
     <section class="hero">
-      <div class="hero-bg" aria-hidden="true"></div>
-      <div class="container hero-inner">
-        <p class="eyebrow" data-i18n="hero.eyebrow">Faja Petrolífera del Orinoco · Venezuela</p>
-        <h1 class="hero-title" data-i18n="hero.title">Energía que mueve a Venezuela hacia el futuro</h1>
-        <p class="hero-sub" data-i18n="hero.sub">
-          Exploramos, producimos y refinamos petróleo con tecnología de vanguardia y
-          compromiso con las comunidades y el ambiente.
-        </p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary" data-i18n="hero.cta1">Trabajemos juntos</a>
-          <a href="#services" class="btn btn-ghost" data-i18n="hero.cta2">Conoce nuestros servicios</a>
-        </div>
-        <div class="hero-badges">
-          <span data-i18n="hero.badge1">+40 años de experiencia</span>
-          <span data-i18n="hero.badge2">Operaciones 24/7</span>
-          <span data-i18n="hero.badge3">Estándares HSE internacionales</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== About ===== -->
-    <section class="section" id="about">
-      <div class="container grid-2">
-        <div>
-          <p class="kicker" data-i18n="about.kicker">Nosotros</p>
-          <h2 data-i18n="about.title">Una empresa venezolana con visión global</h2>
-          <p class="lead" data-i18n="about.p1">
-            Desde el corazón de la Faja Petrolífera del Orinoco, integramos toda la cadena
-            de valor del petróleo: desde la exploración geológica hasta la entrega del
-            producto final a mercados internacionales.
-          </p>
-          <p data-i18n="about.p2">
-            Nuestra gente, tecnología y procesos están alineados con los más altos
-            estándares de seguridad, calidad y responsabilidad ambiental.
-          </p>
-        </div>
-        <ul class="value-list">
-          <li>
-            <span class="value-ico">⛽</span>
-            <div><strong data-i18n="about.v1t">Cadena integrada</strong>
-            <p data-i18n="about.v1p">Upstream, midstream y downstream bajo un mismo techo.</p></div>
-          </li>
-          <li>
-            <span class="value-ico">🛰️</span>
-            <div><strong data-i18n="about.v2t">Tecnología</strong>
-            <p data-i18n="about.v2p">Monitoreo digital y analítica de datos en tiempo real.</p></div>
-          </li>
-          <li>
-            <span class="value-ico">🤝</span>
-            <div><strong data-i18n="about.v3t">Comunidad</strong>
-            <p data-i18n="about.v3p">Inversión social en las regiones donde operamos.</p></div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ===== Services ===== -->
-    <section class="section section-alt" id="services">
-      <div class="container">
-        <div class="section-head">
-          <p class="kicker" data-i18n="services.kicker">Servicios</p>
-          <h2 data-i18n="services.title">Lo que hacemos</h2>
-          <p class="section-desc" data-i18n="services.desc">Soluciones integrales a lo largo de toda la cadena energética.</p>
-        </div>
-        <div class="cards">
-          <article class="card">
-            <div class="card-ico">🔎</div>
-            <h3 data-i18n="services.s1t">Exploración</h3>
-            <p data-i18n="services.s1p">Estudios geológicos y sísmicos para localizar reservas con precisión.</p>
-          </article>
-          <article class="card">
-            <div class="card-ico">🛢️</div>
-            <h3 data-i18n="services.s2t">Producción</h3>
-            <p data-i18n="services.s2p">Extracción eficiente de crudo pesado y extrapesado del Orinoco.</p>
-          </article>
-          <article class="card">
-            <div class="card-ico">🏭</div>
-            <h3 data-i18n="services.s3t">Refinación</h3>
-            <p data-i18n="services.s3p">Procesamiento y mejoramiento de crudo en derivados de alto valor.</p>
-          </article>
-          <article class="card">
-            <div class="card-ico">🚢</div>
-            <h3 data-i18n="services.s4t">Logística</h3>
-            <p data-i18n="services.s4p">Transporte y distribución segura a mercados nacionales e internacionales.</p>
-          </article>
+      <svg class="oilfield" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a1f17"/><stop offset="45%" stop-color="#2e3a1d"/><stop offset="72%" stop-color="#7a5a14"/><stop offset="100%" stop-color="#c9921a"/>
+          </linearGradient>
+          <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffd528"/><stop offset="55%" stop-color="#f4c416"/><stop offset="100%" stop-color="#f4c416" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0e1a0f"/><stop offset="100%" stop-color="#10130f"/></linearGradient>
+          <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#f4c416"/><stop offset="60%" stop-color="#ff9e1b"/><stop offset="100%" stop-color="#ff5e1a"/></linearGradient>
+        </defs>
+        <rect width="1440" height="900" fill="url(#sky)"/>
+        <circle cx="1080" cy="540" r="300" fill="url(#sun)" opacity=".9"/>
+        <circle cx="1080" cy="540" r="92" fill="#ffd528" opacity=".85"/>
+        <rect y="500" width="1440" height="140" fill="#3fb964" opacity=".06"/>
+        <g fill="#10130f" opacity=".82">
+          <rect x="120" y="560" width="70" height="62" rx="4"/><rect x="196" y="572" width="54" height="50" rx="4"/>
+          <rect x="300" y="548" width="16" height="74"/><rect x="324" y="556" width="16" height="66"/><path d="M300 548 h40 l-6 -22 h-28 z"/>
+          <rect x="980" y="566" width="80" height="56" rx="4"/><rect x="1066" y="578" width="48" height="44" rx="4"/>
+        </g>
+        <g><rect x="430" y="470" width="9" height="160" fill="#10130f"/><path class="flare" d="M434 472 c-16 -26 6 -40 0 -64 c20 22 30 40 14 64 z" fill="url(#flame)"/></g>
+        <path d="M0 620 Q720 590 1440 622 L1440 900 L0 900 Z" fill="url(#ground)"/>
+        <path d="M0 620 Q720 590 1440 622" fill="none" stroke="#3fb964" stroke-opacity=".18" stroke-width="2"/>
+        <g stroke="#10130f" stroke-width="6" fill="none" opacity=".9" transform="translate(640 0)">
+          <path d="M40 622 L70 470 L100 622 M40 622 L100 622 M48 580 L92 580 M54 540 L86 540 M60 500 L80 500"/>
+          <path d="M48 580 L86 540 M54 540 L80 500" stroke-width="3"/>
+        </g>
+        <g class="pump" transform="translate(150 470)">
+          <rect x="120" y="150" width="20" height="60" fill="#10130f"/>
+          <g class="walk" style="transform-origin:130px 110px"><rect x="20" y="104" width="220" height="14" rx="6" fill="#10130f"/><path d="M20 111 L-6 150 L34 150 Z" fill="#f4c416"/><circle cx="232" cy="111" r="14" fill="#10130f"/><rect x="226" y="111" width="12" height="80" fill="#10130f"/></g>
+          <rect x="100" y="118" width="60" height="92" fill="#10130f"/><rect x="222" y="190" width="20" height="30" fill="#10130f"/>
+        </g>
+        <g class="pump pump2" transform="translate(880 520) scale(.7)">
+          <rect x="120" y="150" width="20" height="60" fill="#10130f"/>
+          <g class="walk" style="transform-origin:130px 110px"><rect x="20" y="104" width="220" height="14" rx="6" fill="#10130f"/><path d="M20 111 L-6 150 L34 150 Z" fill="#3fb964"/><circle cx="232" cy="111" r="14" fill="#10130f"/><rect x="226" y="111" width="12" height="80" fill="#10130f"/></g>
+          <rect x="100" y="118" width="60" height="92" fill="#10130f"/>
+        </g>
+      </svg>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="wrap hero-inner">
+        <div class="hero-grid">
+          <div class="reveal">
+            <span class="eyebrow" data-i18n="hero.eyebrow">Nueva generación de servicios energéticos · Venezuela</span>
+            <h1 data-i18n-html="hero.title">Convertimos <span class="g">gas y petróleo</span> en <span class="v">energía que produce</span>.</h1>
+            <p class="lede" data-i18n="hero.lede">JIRE ORINOCO es una empresa venezolana enfocada en servicios para generación eléctrica, gas y petróleo. Somos el vehículo que conecta a la industria nacional con soluciones técnicas, consumibles y equipos confiables.</p>
+            <div class="cta-row">
+              <a href="#contacto" class="btn btn-amarillo" data-i18n="hero.cta1">Trabaja con nosotros →</a>
+              <a href="#servicios" class="btn btn-ghost" data-i18n="hero.cta2">Ver servicios</a>
+            </div>
+          </div>
+          <div class="glass hero-card reveal">
+            <span class="tag" data-i18n="hero.cardtag">Lo que hacemos</span>
+            <h3 data-i18n="hero.cardtitle">Operación, suministro y representación</h3>
+            <ul>
+              <li><span class="dot"></span><span data-i18n="hero.c1">Servicio de guaya fina (slickline) para intervención de pozos</span></li>
+              <li><span class="dot v"></span><span data-i18n="hero.c2">Venta de bombas y consumibles para levantamiento artificial</span></li>
+              <li><span class="dot"></span><span data-i18n="hero.c3">Soluciones para generación eléctrica a partir de gas</span></li>
+              <li><span class="dot v"></span><span data-i18n="hero.c4">Representación de marcas y tecnología en Venezuela</span></li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== Stats ===== -->
-    <section class="section stats" id="stats">
-      <div class="container stats-grid">
-        <div class="stat">
-          <span class="stat-num" data-count="1200" data-suffix="K">0</span>
-          <span class="stat-label" data-i18n="stats.s1">Barriles producidos / día</span>
+    <!-- ===== Strip ===== -->
+    <div class="strip glass">
+      <div class="wrap strip-inner">
+        <span class="pill" data-i18n="strip.pill">Empresa nueva</span>
+        <span><b data-i18n="strip.1b">Base local</b> <span data-i18n="strip.1t">· operación en Venezuela</span></span>
+        <span><b data-i18n="strip.2b">Vehículo comercial</b> <span data-i18n="strip.2t">· representación de marcas</span></span>
+        <span><b data-i18n="strip.3b">Sector aguas arriba</b> <span data-i18n="strip.3t">· gas y crudo</span></span>
+        <span><b data-i18n="strip.4b">Energía</b> <span data-i18n="strip.4t">· generación a partir de gas</span></span>
+      </div>
+    </div>
+
+    <!-- ===== Servicios ===== -->
+    <section id="servicios" class="section">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="eyebrow" data-i18n="svc.eyebrow">Servicios</span>
+          <h2 data-i18n="svc.title">Soluciones para cada etapa de la operación</h2>
+          <p data-i18n="svc.desc">Cubrimos generación eléctrica, intervención de pozos y suministro técnico, con el respaldo de tecnología seleccionada para las condiciones de los campos venezolanos.</p>
         </div>
-        <div class="stat">
-          <span class="stat-num" data-count="40" data-suffix="+">0</span>
-          <span class="stat-label" data-i18n="stats.s2">Años de trayectoria</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num" data-count="3500" data-suffix="+">0</span>
-          <span class="stat-label" data-i18n="stats.s3">Colaboradores</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num" data-count="18" data-suffix="">0</span>
-          <span class="stat-label" data-i18n="stats.s4">Mercados de exportación</span>
+        <div class="svc-grid">
+          <article class="glass svc reveal">
+            <div class="line"></div><div class="num">01</div>
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" stroke-linejoin="round"/></svg></div>
+            <h3 data-i18n="svc.s1t">Generación eléctrica</h3>
+            <p data-i18n="svc.s1p">Aprovechamos el gas asociado y disponible para generar electricidad confiable en sitio, reduciendo quema y costos de energía para la operación.</p>
+          </article>
+          <article class="glass svc reveal">
+            <div class="line"></div><div class="num">02</div>
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M12 2v6m0 0a4 4 0 0 1 4 4v6a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-6a4 4 0 0 1 4-4z" stroke-linejoin="round"/></svg></div>
+            <h3 data-i18n="svc.s2t">Guaya fina (slickline)</h3>
+            <p data-i18n="svc.s2p">Servicio de intervención de pozos con guaya fina para mediciones, ajustes y operaciones de mantenimiento con personal y equipos especializados.</p>
+          </article>
+          <article class="glass svc reveal">
+            <div class="line"></div><div class="num">03</div>
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M3 13h4l2-6 4 12 2-6h6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <h3 data-i18n="svc.s3t">Gas y petróleo</h3>
+            <p data-i18n="svc.s3p">Acompañamos la operación aguas arriba con suministro, levantamiento artificial y soluciones técnicas para mantener la producción en marcha.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- ===== Sustainability ===== -->
-    <section class="section" id="sustainability">
-      <div class="container grid-2">
-        <div class="susta-card" aria-hidden="true">
-          <div class="susta-orb"></div>
-          <div class="susta-leaf">🌱</div>
-        </div>
-        <div>
-          <p class="kicker" data-i18n="susta.kicker">Sostenibilidad</p>
-          <h2 data-i18n="susta.title">Energía hoy, responsabilidad para mañana</h2>
-          <p class="lead" data-i18n="susta.p1">
-            Reducimos nuestra huella ambiental con captura de gas, reinyección de agua y
-            programas de reforestación en zonas de operación.
-          </p>
-          <ul class="check-list">
-            <li data-i18n="susta.l1">Reducción progresiva de emisiones de carbono</li>
-            <li data-i18n="susta.l2">Gestión responsable del agua y los suelos</li>
-            <li data-i18n="susta.l3">Transición gradual hacia energías más limpias</li>
+    <!-- ===== Quiénes somos ===== -->
+    <section id="nosotros" class="section">
+      <div class="wrap veh-grid">
+        <div class="reveal">
+          <span class="eyebrow" data-i18n="about.eyebrow">Quiénes somos</span>
+          <h2 data-i18n="about.title">Tu vehículo de entrada al mercado venezolano</h2>
+          <p data-i18n="about.p">JIRE ORINOCO nace para ser el puente entre fabricantes, tecnología y operadores en Venezuela. Si tu empresa quiere vender o representar productos para el sector energético en el país, somos el socio local que pone la operación, el conocimiento del terreno y la relación con el cliente.</p>
+          <ul class="points">
+            <li><div class="k">1</div><div><h4 data-i18n="about.k1t">Representación local</h4><span data-i18n="about.k1p">Llevamos tu marca al mercado venezolano con presencia y soporte en sitio.</span></div></li>
+            <li><div class="k">2</div><div><h4 data-i18n="about.k2t">Suministro técnico</h4><span data-i18n="about.k2p">Bombas, consumibles y equipos para levantamiento artificial e intervención.</span></div></li>
+            <li><div class="k">3</div><div><h4 data-i18n="about.k3t">Servicio en campo</h4><span data-i18n="about.k3p">Guaya fina y soporte operativo con personal especializado.</span></div></li>
           </ul>
         </div>
+        <div class="reveal">
+          <div class="glass visual">
+            <div class="grid-bg"></div>
+            <div class="core"><div class="big">JIRE</div><div class="sub" data-i18n="about.visual">Orinoco · Venezuela</div></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- ===== Contact / CTA ===== -->
-    <section class="section section-cta" id="contact">
-      <div class="container cta-inner">
-        <h2 data-i18n="contact.title">Construyamos el futuro energético juntos</h2>
-        <p data-i18n="contact.desc">Cuéntanos tu proyecto y un especialista te contactará.</p>
-        <form class="contact-form" id="contactForm" novalidate>
-          <div class="field">
-            <input type="text" id="name" name="name" required placeholder=" " />
-            <label for="name" data-i18n="contact.name">Nombre</label>
-          </div>
-          <div class="field">
-            <input type="email" id="email" name="email" required placeholder=" " />
-            <label for="email" data-i18n="contact.email">Correo electrónico</label>
-          </div>
-          <div class="field field-full">
-            <textarea id="message" name="message" rows="4" placeholder=" "></textarea>
-            <label for="message" data-i18n="contact.message">Mensaje</label>
-          </div>
-          <button type="submit" class="btn btn-primary" data-i18n="contact.submit">Enviar mensaje</button>
-          <p class="form-note" id="formNote" hidden data-i18n="contact.note">¡Gracias! Te contactaremos pronto.</p>
-        </form>
+    <!-- ===== Productos ===== -->
+    <section id="productos" class="section">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <span class="eyebrow" data-i18n="prod.eyebrow">Productos</span>
+          <h2 data-i18n="prod.title">Bombas, consumibles y equipos</h2>
+          <p data-i18n="prod.desc">Suministramos los componentes que mantienen la producción funcionando, con disponibilidad y respaldo técnico para cada aplicación.</p>
+        </div>
+        <div class="prod-grid">
+          <article class="glass prod reveal">
+            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#f4c416" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+            <div><h3 data-i18n="prod.p1t">Bombas para levantamiento</h3><p data-i18n="prod.p1p">Equipos de bombeo para sistemas de levantamiento artificial (BCP/ESP), seleccionados según las condiciones del pozo.</p></div>
+          </article>
+          <article class="glass prod reveal">
+            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#3fb964" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10" stroke-linecap="round"/></svg></div>
+            <div><h3 data-i18n="prod.p2t">Consumibles e insumos</h3><p data-i18n="prod.p2p">Repuestos, accesorios y consumibles para mantener la continuidad operativa y reducir tiempos muertos.</p></div>
+          </article>
+          <article class="glass prod reveal">
+            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#f4c416" stroke-width="2"><path d="M12 2v20M7 6l10 12M17 6 7 18" stroke-linecap="round"/></svg></div>
+            <div><h3 data-i18n="prod.p3t">Equipos de guaya fina</h3><p data-i18n="prod.p3p">Herramientas y componentes para operaciones de slickline en intervención de pozos.</p></div>
+          </article>
+          <article class="glass prod reveal">
+            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#3fb964" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
+            <div><h3 data-i18n="prod.p4t">Soluciones de generación</h3><p data-i18n="prod.p4p">Unidades modulares y componentes para generación eléctrica a partir de gas en sitio.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contacto ===== -->
+    <section id="contacto" class="final">
+      <div class="wrap glass final-card">
+        <span class="eyebrow" data-i18n="contact.eyebrow">Hablemos</span>
+        <h2 data-i18n="contact.title">Construyamos juntos la operación que Venezuela necesita</h2>
+        <p data-i18n="contact.desc">Ya seas operador, fabricante o quieras representar tu tecnología en el país, JIRE ORINOCO es el vehículo para entrar y crecer en el mercado energético venezolano.</p>
+        <a href="mailto:presidencia@jireorinoco.com" class="btn btn-amarillo">presidencia@jireorinoco.com</a>
+        <div class="contact-extra">
+          <a href="tel:+584122948509">+58 412 2948509</a>
+          <span>Av. Francisco de Miranda, Multicentro Empresarial del Este, Torre Miranda, Bloque A, Piso 4, Oficina 4-6, Chacao, Caracas — Venezuela · CP 01060</span>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- ===== Footer ===== -->
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="footer-logo">
-          <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg>
-          <span class="brand-name">Jire<strong>Orinoco</strong></span>
-        </span>
-        <p data-i18n="footer.tagline">Energía y petróleo de Venezuela para el mundo.</p>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a href="#top" class="brand"><svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg><span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Energía · Gas · Petróleo</small></span></a>
+          <p data-i18n="footer.about">Empresa venezolana de servicios para generación eléctrica, gas y petróleo. Representación, suministro y operación en campo.</p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.servicesh">Servicios</h4>
+          <a href="#servicios" data-i18n="footer.s1">Generación eléctrica</a>
+          <a href="#servicios" data-i18n="footer.s2">Guaya fina</a>
+          <a href="#productos" data-i18n="footer.s3">Bombas y consumibles</a>
+          <a href="#nosotros" data-i18n="footer.s4">Representación</a>
+        </div>
+        <div>
+          <h4 data-i18n="footer.contacth">Contacto</h4>
+          <a href="mailto:presidencia@jireorinoco.com">presidencia@jireorinoco.com</a>
+          <a href="tel:+584122948509">+58 412 2948509</a>
+          <a href="https://maps.google.com/?q=Multicentro+Empresarial+del+Este+Torre+Miranda+Chacao+Caracas" target="_blank" rel="noopener" data-i18n="footer.addr">Torre Miranda, Chacao, Caracas — Venezuela</a>
+        </div>
       </div>
-      <div class="footer-meta">
-        <p data-i18n="footer.address">Puerto Ordaz, Estado Bolívar · Venezuela</p>
-        <p>© <span id="year"></span> Jire Orinoco. <span data-i18n="footer.rights">Todos los derechos reservados.</span></p>
+      <div class="foot-bottom">
+        <span>© <span id="year"></span> JIRE ORINOCO, C.A. <span data-i18n="footer.rights">Todos los derechos reservados.</span></span>
+        <span data-i18n="footer.slogan">Energía que produce.</span>
       </div>
     </div>
   </footer>

@@ -1,14 +1,14 @@
 # Jire Orinoco
 
-Landing page para una empresa de energía y petróleo de Venezuela (Faja Petrolífera del Orinoco).
+Landing page de **JIRE ORINOCO, C.A.** — empresa venezolana de servicios para generación eléctrica, gas y petróleo (representación, suministro y operación en campo).
 
 ## Características
 
-- 🎨 Diseño vistoso con gradientes cálidos inspirados en el crudo y la energía
-- 🌙 Modo nocturno (recuerda la preferencia y respeta la del sistema)
+- 🪟 Diseño **clear glass** (glassmorphism estilo iPhone) sobre paleta verde · amarillo · negro olivo
+- 🛢️ Hero animado del campo petrolero (balancines, mechurrio, torre) en SVG
+- 🌙 Modo nocturno / claro (recuerda la preferencia y respeta la del sistema)
 - 🌐 Bilingüe Español / Inglés (cambio instantáneo, recuerda la elección)
-- 📊 Contadores animados, reveal al hacer scroll y formulario de contacto
-- 📱 Responsive, accesible y sin dependencias ni build
+- 📱 Responsive, accesible, sin dependencias ni build
 
 ## Estructura
 
