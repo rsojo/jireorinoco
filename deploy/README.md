@@ -32,6 +32,14 @@ bash deploy/deploy.sh ssl        # certificados Let's Encrypt
 bash deploy/deploy.sh status     # estado del stack
 ```
 
+## Hard reset (solo DEV)
+
+Borra **todas las facturas/casos** y deja la base limpia con datos demo. Además resetea el watcher para que ignore el correo viejo y solo procese nuevos. **Destructivo — no usar en producción.**
+
+```bash
+bash deploy/reset-dev.sh --yes
+```
+
 ## Notas
 
 - `deploy/config.env` está en `.gitignore` (contiene secretos: key de DeepSeek, contraseña IMAP). **No lo subas.**
