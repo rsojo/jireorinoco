@@ -1,50 +1,53 @@
 # Despliegue del stack
 
-Script idempotente para desplegar **todo el stack** en un VPS Ubuntu 24.04:
+Scripts para desplegar en Ubuntu 24.04 la landing y el tracker de conciliación de guías:
 
-- **Landing** → `https://jireorinoco.com` (+ www)
-- **App de facturas** → `https://p2p.jireorinoco.com` (Docker: floci + api + n8n)
-- **DeepSeek** como LLM de extracción de facturas
-- **OCR_Processor** (FastAPI + Tesseract) en red interna
-- **Watcher IMAP**: correo → OCR → DeepSeek → caso
+- Landing: `https://jireorinoco.com` y `www`.
+- Tracker: `https://tracker.jireorinoco.com`, panel y API en el mismo servicio.
+- OCR opcional: `Ocr_Processor` en la red privada del tracker.
 
 ## Requisitos
 
-- **Local:** `bash`, `ssh`, `tar`, `git`, `openssl`.
-- **VPS:** Ubuntu 24.04 con Docker (plantilla de Hostinger) y tu llave SSH ya autorizada en `root@VPS_HOST`.
-- **DNS:** registros **A** de `@`, `www` y `p2p` apuntando a la IP del VPS (manual en hPanel o por la API de Hostinger).
-- Acceso local a los repos privados `automatizacion-facturas` y `Ocr_Processor` (se envían al VPS por `git archive`, sin credenciales en el servidor).
+- Local: `bash`, `ssh`, `tar`, `git` y `openssl`.
+- VPS: Ubuntu 24.04 con Docker y la llave SSH autorizada.
+- DNS: registros A de `@`, `www` y `tracker` apuntando al VPS.
+- Acceso local a `guias-conciliacion` y, si se usa, `Ocr_Processor`.
+
+Copia `deploy/config.example.env` a `deploy/config.env` y completa los valores.
 
 ## Uso
 
 ```bash
-cp deploy/config.example.env deploy/config.env
-# edita deploy/config.env con tus valores (VPS, dominio, rutas de repos, DeepSeek, IMAP)
-
-bash deploy/deploy.sh            # despliega todo
-# o por pasos:
-bash deploy/deploy.sh base       # firewall + nginx + certbot + docker
-bash deploy/deploy.sh landing    # landing
-bash deploy/deploy.sh facturas   # stack de facturas + DeepSeek
-bash deploy/deploy.sh ocr        # OCR_Processor
-bash deploy/deploy.sh watcher    # watcher IMAP
-bash deploy/deploy.sh ssl        # certificados Let's Encrypt
-bash deploy/deploy.sh status     # estado del stack
+bash deploy/deploy.sh              # all: base, landing, tracker, SSL y estado
+bash deploy/deploy.sh base
+bash deploy/deploy.sh landing
+bash deploy/deploy.sh tracker
+bash deploy/deploy.sh ocr           # opcional; requiere tracker desplegado
+bash deploy/deploy.sh ssl
+bash deploy/deploy.sh status
 ```
 
-## Hard reset (solo DEV)
+`all` no despliega OCR ni retira el sitio anterior. El paso `retire-p2p` es independiente y no publica configuración.
 
-Borra **todas las facturas/casos** y deja la base limpia con datos demo. Además resetea el watcher para que ignore el correo viejo y solo procese nuevos. **Destructivo — no usar en producción.**
+## Retirar el sitio anterior
+
+```bash
+bash deploy/deploy.sh retire-p2p --yes
+```
+
+Guarda backups del sitio y de los volúmenes, detiene contenedores, elimina Nginx y certificado, y muestra los archivos y tamaños. No borra los volúmenes ni `/opt/facturas`; el registro DNS debe borrarse manualmente en Hostinger.
+
+## Reset de desarrollo
 
 ```bash
 bash deploy/reset-dev.sh --yes
 ```
 
+Detiene el tracker, borra la base y los `.eml`, actualiza `START_AFTER`, arranca y verifica login y total cero. No usar en producción.
+
 ## Notas
 
-- `deploy/config.env` está en `.gitignore` (contiene secretos: key de DeepSeek, contraseña IMAP). **No lo subas.**
-- Los **secretos del stack** (JWT, claves de n8n) se generan en el VPS la primera vez y se guardan en `/opt/facturas/.secrets`; en redespliegues se reutilizan.
-- Los puertos de los contenedores (api 3000, floci 4566, n8n 5678, ocr 8000) quedan **solo en `127.0.0.1`** (no expuestos a internet); Nginx publica solo lo necesario.
-- El watcher es de **solo lectura** del buzón y procesa únicamente correos nuevos con adjunto PDF/PNG/JPG.
-- **Titan:** habilita el **acceso IMAP** del buzón antes de correr `watcher`.
-- El OCR se construye con un `Dockerfile.deploy` ligero (sin el build en Rust de `pdf-inspector`); usa el motor `hybrid_pdf`.
+- Los secretos estables viven en `/opt/tracker/.secrets`; el admin generado se muestra una sola vez.
+- `START_AFTER` se fija en el primer despliegue para no procesar correos anteriores.
+- El watcher integrado solo lee el remitente `TRACKER_SOURCE_EMAIL`; vacío lo deja inactivo.
+- El puerto 3100 solo escucha en localhost; Nginx publica el tracker.

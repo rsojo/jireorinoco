@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
 # =============================================================================
-# Despliegue completo del stack jireorinoco en un VPS Ubuntu 24.04.
+# Despliegue del stack jireorinoco en un VPS Ubuntu 24.04.
 #
-#   Landing (jireorinoco.com)  +  App de facturas (p2p.jireorinoco.com)
-#   + DeepSeek (LLM)  +  OCR_Processor  +  watcher IMAP (correo -> OCR -> LLM)
+#   Landing (<DOMAIN>) + Tracker de conciliación (tracker.<DOMAIN>)
+#   + OCR opcional para los adjuntos del tracker.
 #
 # Uso:
-#   cp deploy/config.example.env deploy/config.env   # y completa los valores
+#   cp deploy/config.example.env deploy/config.env
 #   bash deploy/deploy.sh [paso]
 #
-# Pasos: all (def) | base | landing | facturas | ocr | watcher | ssl | status
-#
-# Requisitos LOCALES: bash, ssh, tar, git, openssl.
-# Requisitos VPS: Ubuntu 24.04 con Docker (plantilla de Hostinger) y tu llave
-# SSH ya autorizada en root@VPS_HOST.
-#
-# Prerrequisito DNS (manual o por API): registros A de @, www y p2p -> IP del VPS.
+# Pasos: all (def) | base | landing | tracker | ocr | ssl | status | retire-p2p
 # =============================================================================
 set -euo pipefail
 
@@ -24,9 +18,9 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 CONFIG_FILE="${CONFIG_FILE:-$SCRIPT_DIR/config.env}"
 REMOTE_CONF="/root/.stack-deploy.env"
 
-log()  { printf '\033[1;36m==>\033[0m %s\n' "$*"; }
-ok()   { printf '\033[1;32m  ok\033[0m %s\n' "$*"; }
-die()  { printf '\033[1;31mERROR:\033[0m %s\n' "$*" >&2; exit 1; }
+log() { printf '\033[1;36m==>\033[0m %s\n' "$*"; }
+ok() { printf '\033[1;32m  ok\033[0m %s\n' "$*"; }
+die() { printf '\033[1;31mERROR:\033[0m %s\n' "$*" >&2; exit 1; }
 
 [ -f "$CONFIG_FILE" ] || die "No existe $CONFIG_FILE. Copia config.example.env a config.env y complétalo."
 # shellcheck disable=SC1090
@@ -37,43 +31,50 @@ SSH_KEY="${SSH_KEY/#\~/$HOME}"
 [ -f "$SSH_KEY" ] || die "No encuentro la llave SSH: $SSH_KEY"
 
 SSH_OPTS=(-i "$SSH_KEY" -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30)
-remote()      { ssh "${SSH_OPTS[@]}" "$SSH_USER@$VPS_HOST" "$@"; }
-remote_bash() { ssh "${SSH_OPTS[@]}" "$SSH_USER@$VPS_HOST" "bash -s"; }   # lee script por stdin
+remote() { ssh "${SSH_OPTS[@]}" "$SSH_USER@$VPS_HOST" "$@"; }
+remote_bash() { ssh "${SSH_OPTS[@]}" "$SSH_USER@$VPS_HOST" "bash -s"; }
 
-# Envía un repo local (rama/HEAD) y lo extrae en un destino del VPS.
-ship_repo() { # <dir_local> <ref> <dest_remoto>
+ship_repo() {
   local dir="$1" ref="$2" dest="$3"
   [ -d "$dir/.git" ] || die "No es un repo git: $dir"
-  git -C "$dir" archive --format=tar "$ref" \
-    | remote "mkdir -p '$dest' && tar -x -C '$dest'"
+  git -C "$dir" archive --format=tar "$ref" | remote "mkdir -p '$dest' && tar -x -C '$dest'"
 }
 
-# --- Publica la configuración (secretos del usuario) en el VPS, una sola vez ---
 push_config() {
   log "Publicando configuración en el VPS ($REMOTE_CONF)"
-  remote "umask 077; cat > $REMOTE_CONF" <<EOF
-DOMAIN='$DOMAIN'
-CERTBOT_EMAIL='$CERTBOT_EMAIL'
-DEEPSEEK_API_KEY='${DEEPSEEK_API_KEY:-}'
-DEEPSEEK_MODEL='${DEEPSEEK_MODEL:-deepseek-chat}'
-IMAP_HOST='${IMAP_HOST:-imap.titan.email}'
-IMAP_PORT='${IMAP_PORT:-993}'
-IMAP_USER='${IMAP_USER:-}'
-IMAP_PASS='${IMAP_PASS:-}'
-IMAP_POLL_SECONDS='${IMAP_POLL_SECONDS:-60}'
-DEFAULT_OCR_LANGUAGE='${DEFAULT_OCR_LANGUAGE:-spa}'
-EOF
+  {
+    printf 'DOMAIN=%q\n' "$DOMAIN"
+    printf 'CERTBOT_EMAIL=%q\n' "$CERTBOT_EMAIL"
+    printf 'TRACKER_DIR=%q\n' "${TRACKER_DIR:-}"
+    printf 'TRACKER_BRANCH=%q\n' "${TRACKER_BRANCH:-main}"
+    printf 'TRACKER_SUBDOMAIN=%q\n' "${TRACKER_SUBDOMAIN:-tracker}"
+    printf 'TRACKER_SOURCE_EMAIL=%q\n' "${TRACKER_SOURCE_EMAIL:-}"
+    printf 'TRACKER_ADMIN_EMAIL=%q\n' "${TRACKER_ADMIN_EMAIL:-admin@$DOMAIN}"
+    printf 'TRACKER_ADMIN_PASSWORD=%q\n' "${TRACKER_ADMIN_PASSWORD:-}"
+    printf 'TRACKER_ASSIGNMENT_SUBJECT_REGEX=%q\n' "${TRACKER_ASSIGNMENT_SUBJECT_REGEX:-}"
+    printf 'TRACKER_PAYMENT_SUBJECT_REGEX=%q\n' "${TRACKER_PAYMENT_SUBJECT_REGEX:-}"
+    printf 'TRACKER_IMAP_MAILBOX=%q\n' "${TRACKER_IMAP_MAILBOX:-INBOX}"
+    printf 'TRACKER_OCR=%q\n' "${TRACKER_OCR:-false}"
+    printf 'DEEPSEEK_API_KEY=%q\n' "${DEEPSEEK_API_KEY:-}"
+    printf 'DEEPSEEK_MODEL=%q\n' "${DEEPSEEK_MODEL:-deepseek-chat}"
+    printf 'IMAP_HOST=%q\n' "${IMAP_HOST:-imap.titan.email}"
+    printf 'IMAP_PORT=%q\n' "${IMAP_PORT:-993}"
+    printf 'IMAP_USER=%q\n' "${IMAP_USER:-}"
+    printf 'IMAP_PASS=%q\n' "${IMAP_PASS:-}"
+    printf 'IMAP_POLL_SECONDS=%q\n' "${IMAP_POLL_SECONDS:-60}"
+    printf 'OCR_DIR=%q\n' "${OCR_DIR:-}"
+    printf 'DEFAULT_OCR_LANGUAGE=%q\n' "${DEFAULT_OCR_LANGUAGE:-spa}"
+  } | remote "umask 077; cat > '$REMOTE_CONF'"
   ok "config publicada"
 }
 
-# =============================================================================
 step_base() {
   log "Base: firewall + Nginx + Certbot + Docker"
   remote_bash <<'EOF'
 set -e
 export DEBIAN_FRONTEND=noninteractive
 ufw allow OpenSSH >/dev/null 2>&1 || true
-ufw allow 80/tcp  >/dev/null 2>&1 || true
+ufw allow 80/tcp >/dev/null 2>&1 || true
 ufw allow 443/tcp >/dev/null 2>&1 || true
 ufw --force enable >/dev/null 2>&1 || true
 apt-get update -qq
@@ -85,7 +86,6 @@ EOF
   ok "base lista"
 }
 
-# =============================================================================
 step_landing() {
   log "Landing: $DOMAIN (desde este repo)"
   ship_repo "$REPO_ROOT" HEAD "/var/www/$DOMAIN"
@@ -110,81 +110,96 @@ EOF
   ok "landing desplegada (http)"
 }
 
-# =============================================================================
-step_facturas() {
-  log "Stack de facturas: $FACTURAS_DIR ($FACTURAS_BRANCH) -> p2p.$DOMAIN"
-  : "${FACTURAS_DIR:?}"
-  ship_repo "$FACTURAS_DIR" "${FACTURAS_BRANCH:-main}" "/opt/facturas"
-  remote_bash <<'EOF'
+step_tracker() {
+  : "${TRACKER_DIR:?TRACKER_DIR es obligatorio para tracker}"
+  local branch="${TRACKER_BRANCH:-main}"
+  [ -d "$TRACKER_DIR/.git" ] || die "No es un repo git: $TRACKER_DIR"
+  git -C "$TRACKER_DIR" show-ref --verify --quiet "refs/heads/$branch" || die "No existe la rama local $branch en $TRACKER_DIR"
+  [ -n "${TRACKER_SOURCE_EMAIL:-}" ] || log "Aviso: TRACKER_SOURCE_EMAIL está vacío; el procesador de correo quedará inactivo"
+  local revision
+  revision="$(git -C "$TRACKER_DIR" rev-parse --short "$branch")"
+  log "Tracker: $TRACKER_DIR ($branch) -> ${TRACKER_SUBDOMAIN:-tracker}.$DOMAIN"
+  remote "rm -rf /opt/tracker/app.new && mkdir -p /opt/tracker"
+  ship_repo "$TRACKER_DIR" "$branch" "/opt/tracker/app.new"
+  remote_bash <<EOF
 set -e
 source /root/.stack-deploy.env
-cd /opt/facturas/apps/floci
+rm -rf /opt/tracker/app.old
+[ ! -e /opt/tracker/app ] || mv /opt/tracker/app /opt/tracker/app.old
+mv /opt/tracker/app.new /opt/tracker/app
+printf '%s\n' '$revision' > /opt/tracker/app/REVISION
 
-# Secretos estables (se generan una vez y se reutilizan).
-if [ ! -f /opt/facturas/.secrets ] || ! grep -q '^JWT_SECRET=' /opt/facturas/.secrets; then
-  umask 077
-  { echo "JWT_SECRET=$(openssl rand -hex 32)";
-    echo "N8N_ENCRYPTION_KEY=$(openssl rand -hex 24)";
-    echo "N8N_API_KEY=$(openssl rand -hex 24)"; } >> /opt/facturas/.secrets
+for value in "\$TRACKER_ADMIN_EMAIL" "\$TRACKER_ADMIN_PASSWORD" "\$TRACKER_SOURCE_EMAIL" "\$TRACKER_ASSIGNMENT_SUBJECT_REGEX" "\$TRACKER_PAYMENT_SUBJECT_REGEX" "\$IMAP_HOST" "\$IMAP_PORT" "\$IMAP_USER" "\$IMAP_PASS" "\$DEEPSEEK_API_KEY" "\$DEEPSEEK_MODEL"; do
+  case "\$value" in *$'\n'*|*$'\r'*) echo "ERROR: los valores del tracker no pueden contener saltos de línea" >&2; exit 1;; esac
+done
+
+umask 077
+if [ ! -f /opt/tracker/.secrets ] || ! grep -q '^JWT_SECRET=' /opt/tracker/.secrets; then
+  ADMIN_PASSWORD="\$TRACKER_ADMIN_PASSWORD"
+  GENERATED_ADMIN=0
+  if [ -z "\$ADMIN_PASSWORD" ]; then
+    ADMIN_PASSWORD="\$(openssl rand -base64 18 | tr -d '/+=')"
+    GENERATED_ADMIN=1
+  fi
+  [ "\${#ADMIN_PASSWORD}" -ge 10 ] || { echo "ERROR: TRACKER_ADMIN_PASSWORD debe tener al menos 10 caracteres" >&2; exit 1; }
+  [ "\$ADMIN_PASSWORD" != secret123 ] || { echo "ERROR: TRACKER_ADMIN_PASSWORD no puede ser secret123" >&2; exit 1; }
+  { printf 'JWT_SECRET=%s\n' "\$(openssl rand -hex 32)"; printf 'ADMIN_PASSWORD=%q\n' "\$ADMIN_PASSWORD"; printf 'START_AFTER=%s\n' "\$(date -u +%Y-%m-%dT%H:%M:%SZ)"; } > /opt/tracker/.secrets
+  if [ "\$GENERATED_ADMIN" = 1 ]; then echo "ADMIN_PASSWORD generado: \$ADMIN_PASSWORD (guárdala; no se vuelve a mostrar)"; fi
 fi
-source /opt/facturas/.secrets
-grep -q '^DEEPSEEK_API_KEY=' /opt/facturas/.secrets || echo "DEEPSEEK_API_KEY=$DEEPSEEK_API_KEY" >> /opt/facturas/.secrets
-
-# 1) flag node:sqlite, 2) puertos solo localhost, 3) secretos, 4) DeepSeek
-sed -i 's|node scripts/migrate.js|node --experimental-sqlite scripts/migrate.js|;
-        s|node scripts/seed.js|node --experimental-sqlite scripts/seed.js|;
-        s|node scripts/bootstrap-floci-s3.js|node --experimental-sqlite scripts/bootstrap-floci-s3.js|;
-        s|node src/server.js|node --experimental-sqlite src/server.js|' docker-compose.yml
-sed -i 's|- "4566:4566"|- "127.0.0.1:4566:4566"|; s|- "3000:3000"|- "127.0.0.1:3000:3000"|; s|- "5678:5678"|- "127.0.0.1:5678:5678"|' docker-compose.yml
-sed -i "s/dev-secret-change-me/$JWT_SECRET/; s/dev-n8n-encryption-key-change-me/$N8N_ENCRYPTION_KEY/; s/n8n-dev-key/$N8N_API_KEY/g" docker-compose.yml
-if [ -n "$DEEPSEEK_API_KEY" ]; then
-  sed -i "s|AI_PROVIDER: mock|AI_PROVIDER: deepseek\n      DEEPSEEK_API_KEY: \"$DEEPSEEK_API_KEY\"\n      DEEPSEEK_MODEL: \"${DEEPSEEK_MODEL:-deepseek-chat}\"|" docker-compose.yml
-fi
-
-docker compose up -d --build
-
-# Nginx p2p: panel web (estático) + proxy /api al api (mismo origen)
-cat > "/etc/nginx/sites-available/p2p.$DOMAIN" <<'NGINX'
+source /opt/tracker/.secrets
+write_env() { printf '%s=%s\n' "\$1" "\$2"; }
+{
+  write_env NODE_ENV production; write_env PORT 3100; write_env DATA_DIR /data
+  write_env JWT_SECRET "\$JWT_SECRET"; write_env ADMIN_EMAIL "\$TRACKER_ADMIN_EMAIL"; write_env ADMIN_PASSWORD "\$ADMIN_PASSWORD"
+  if [ -n "\$DEEPSEEK_API_KEY" ]; then write_env EXTRACTOR deepseek; else write_env EXTRACTOR mock; fi
+  write_env DEEPSEEK_API_KEY "\$DEEPSEEK_API_KEY"; write_env DEEPSEEK_MODEL "\$DEEPSEEK_MODEL"
+  write_env IMAP_HOST "\$IMAP_HOST"; write_env IMAP_PORT "\$IMAP_PORT"; write_env IMAP_USER "\$IMAP_USER"; write_env IMAP_PASS "\$IMAP_PASS"
+  write_env IMAP_MAILBOX "\$TRACKER_IMAP_MAILBOX"; write_env POLL_SECONDS "\$IMAP_POLL_SECONDS"; write_env START_AFTER "\$START_AFTER"; write_env SOURCE_EMAIL "\$TRACKER_SOURCE_EMAIL"
+  [ -z "\$TRACKER_ASSIGNMENT_SUBJECT_REGEX" ] || write_env ASSIGNMENT_SUBJECT_REGEX "\$TRACKER_ASSIGNMENT_SUBJECT_REGEX"
+  [ -z "\$TRACKER_PAYMENT_SUBJECT_REGEX" ] || write_env PAYMENT_SUBJECT_REGEX "\$TRACKER_PAYMENT_SUBJECT_REGEX"
+  if [ "\$TRACKER_OCR" = true ]; then write_env OCR_URL http://ocr-processor:8000; fi
+} > /opt/tracker/app/.env
+chmod 600 /opt/tracker/.secrets /opt/tracker/app/.env
+[ -n "\$TRACKER_SOURCE_EMAIL" ] || echo "AVISO: TRACKER_SOURCE_EMAIL está vacío; el procesador de correo quedará inactivo"
+cd /opt/tracker/app
+docker compose -p tracker up -d --build --remove-orphans
+if ! curl --retry 40 --retry-delay 2 --retry-connrefused -sf http://127.0.0.1:3100/api/v1/health >/dev/null; then docker compose -p tracker logs --tail 80; exit 1; fi
+cat > "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN" <<'NGINX'
 server {
     listen 80;
     listen [::]:80;
-    server_name p2p.__DOMAIN__;
-    root /opt/facturas/apps/web;
-    index index.html;
-    location = /api/config.js { default_type application/javascript; return 200 "window.APP_CONFIG = {\"apiBaseUrl\":\"\"};"; }
-    location /api/ {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+    server_name __TRACKER__.__DOMAIN__;
+    client_max_body_size 20m;
+    location / {
+        proxy_pass http://127.0.0.1:3100;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_read_timeout 120s;
     }
-    location / { try_files $uri $uri/ =404; }
 }
 NGINX
-sed -i "s/__DOMAIN__/$DOMAIN/g" "/etc/nginx/sites-available/p2p.$DOMAIN"
-chmod o+rx /opt /opt/facturas /opt/facturas/apps
-ln -sf "/etc/nginx/sites-available/p2p.$DOMAIN" "/etc/nginx/sites-enabled/p2p.$DOMAIN"
+sed -i "s/__TRACKER__/\$TRACKER_SUBDOMAIN/g; s/__DOMAIN__/\$DOMAIN/g" "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN"
+ln -sf "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN" "/etc/nginx/sites-enabled/\$TRACKER_SUBDOMAIN.\$DOMAIN"
 nginx -t && systemctl reload nginx
-docker compose ps
+if [ -d "/etc/letsencrypt/live/\$TRACKER_SUBDOMAIN.\$DOMAIN" ]; then certbot --nginx -d "\$TRACKER_SUBDOMAIN.\$DOMAIN" --non-interactive --reinstall --redirect; fi
+docker image prune -f
 EOF
-  ok "stack de facturas desplegado (http)"
 }
 
-# =============================================================================
 step_ocr() {
-  log "OCR_Processor: $OCR_DIR -> contenedor 'ocr' (red interna)"
+  log "OCR_Processor: $OCR_DIR -> contenedor 'ocr-processor' (red tracker_default)"
   : "${OCR_DIR:?}"
   ship_repo "$OCR_DIR" HEAD "/opt/ocr_processor"
   remote_bash <<'EOF'
 set -e
 source /root/.stack-deploy.env
+docker network inspect tracker_default >/dev/null 2>&1 || { echo "ERROR: Despliega primero el tracker" >&2; exit 1; }
 cd /opt/ocr_processor
 cat > Dockerfile.deploy <<'DOCKER'
 FROM python:3.11-slim
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    tesseract-ocr tesseract-ocr-eng tesseract-ocr-spa poppler-utils curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-eng tesseract-ocr-spa poppler-utils curl && rm -rf /var/lib/apt/lists/*
 RUN useradd -m -u 1001 appuser
 WORKDIR /app
 COPY requirements.txt .
@@ -217,10 +232,10 @@ services:
     env_file: [.env]
     volumes: ["ocr_tmp:/tmp/ocr_processor"]
     restart: unless-stopped
-    networks: [facturas]
+    networks: [tracker]
 volumes: { ocr_tmp: {} }
 networks:
-  facturas: { name: floci_default, external: true }
+  tracker: { name: tracker_default, external: true }
 YML
 docker compose -f docker-compose.deploy.yml up -d --build
 docker ps --filter name=ocr-processor --format "{{.Status}}"
@@ -228,183 +243,88 @@ EOF
   ok "OCR desplegado"
 }
 
-# =============================================================================
-step_watcher() {
-  log "Watcher IMAP ($IMAP_USER): correo -> OCR -> DeepSeek"
+step_ssl() {
+  log "SSL (Let's Encrypt) para $DOMAIN, www y tracker"
+  remote "certbot --nginx -d '$DOMAIN' -d 'www.$DOMAIN' --non-interactive --agree-tos -m '$CERTBOT_EMAIL' --redirect" || log "  (aviso: revisa que el DNS de @ y www apunte al VPS)"
   remote_bash <<'EOF'
 set -e
 source /root/.stack-deploy.env
-source /opt/facturas/.secrets
-mkdir -p /opt/facturas/mail-watcher
-cat > /opt/facturas/mail-watcher/.env <<ENV
-IMAP_HOST=$IMAP_HOST
-IMAP_PORT=$IMAP_PORT
-IMAP_USER=$IMAP_USER
-IMAP_PASS=$IMAP_PASS
-API_BASE_URL=http://api:3000
-OCR_URL=http://ocr:8000
-N8N_API_KEY=$N8N_API_KEY
-POLL_SECONDS=$IMAP_POLL_SECONDS
-START_AFTER=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-ENV
-chmod 600 /opt/facturas/mail-watcher/.env
-
-cat > /opt/facturas/mail-watcher/watcher.js <<'JS'
-const fs = require('node:fs');
-const crypto = require('node:crypto');
-const { ImapFlow } = require('imapflow');
-const { simpleParser } = require('mailparser');
-const { runGmailToBackendFlow } = require('/app/apps/n8n/simulators/gmail_to_backend.js');
-
-const API = process.env.API_BASE_URL || 'http://api:3000';
-const OCR_URL = process.env.OCR_URL || 'http://ocr:8000';
-const KEY = process.env.N8N_API_KEY || '';
-const POLL = Number(process.env.POLL_SECONDS || 60) * 1000;
-const START_AFTER = new Date(process.env.START_AFTER || Date.now());
-const ALLOWED = new Set(['application/pdf', 'image/png', 'image/jpeg']);
-const STATE = '/app/mail-watcher/processed.json';
-
-function loadProcessed() { try { return new Set(JSON.parse(fs.readFileSync(STATE, 'utf8'))); } catch { return new Set(); } }
-function saveProcessed(s) { try { fs.writeFileSync(STATE, JSON.stringify([...s].slice(-500))); } catch (e) {} }
-
-function makeTransport() {
-  const req = (method) => async (path, body, headers = {}) => {
-    const res = await fetch(new URL(path, API), { method, headers, body: body === undefined ? undefined : JSON.stringify(body) });
-    return { status: res.status, body: await res.json().catch(() => ({})) };
-  };
-  return { post: req('POST'), patch: req('PATCH'), get: req('GET') };
-}
-
-async function ocrExtract(att) {
-  try {
-    const fd = new FormData();
-    fd.append('file', new Blob([att.content], { type: (att.contentType || 'application/octet-stream') }), att.filename || 'doc');
-    const r = await fetch(OCR_URL + '/api/v1/ocr/upload', { method: 'POST', body: fd });
-    if (!r.ok) { console.error('OCR HTTP', r.status); return ''; }
-    const j = await r.json();
-    return j.text || '';
-  } catch (e) { console.error('OCR err', e.message); return ''; }
-}
-
-async function buildEmail(p) {
-  const raw = (p.attachments || []).filter(a => ALLOWED.has((a.contentType || '').toLowerCase()));
-  const attachments = [];
-  for (const a of raw) {
-    const ocrText = await ocrExtract(a);
-    attachments.push({
-      filename: a.filename || 'adjunto.pdf', mime_type: (a.contentType || 'application/pdf').toLowerCase(),
-      file_size: a.size || (a.content ? a.content.length : 0), storage_type: 's3',
-      storage_reference: 'attachments/' + crypto.randomUUID() + '_' + (a.filename || 'adjunto'),
-      file_hash: crypto.createHash('sha256').update(a.content || Buffer.from('')).digest('hex'),
-      text_content: (ocrText && ocrText.trim()) || p.text || p.subject || '(sin contenido)'
-    });
-  }
-  return {
-    message_id: p.messageId || ('titan-' + crypto.randomUUID()), thread_id: p.messageId || ('titan-' + crypto.randomUUID()),
-    subject: p.subject || '(sin asunto)', body_text: p.text || '',
-    from_email: (p.from && p.from.value && p.from.value[0] && p.from.value[0].address) || 'desconocido@correo',
-    received_at: (p.date || new Date()).toISOString(), provider_hint: null, attachments
-  };
-}
-
-async function poll(processed) {
-  const client = new ImapFlow({ host: process.env.IMAP_HOST, port: Number(process.env.IMAP_PORT || 993), secure: true, auth: { user: process.env.IMAP_USER, pass: process.env.IMAP_PASS }, logger: false });
-  await client.connect();
-  await client.mailboxOpen('INBOX', { readOnly: true });
-  try {
-    const sinceDay = new Date(START_AFTER); sinceDay.setHours(0, 0, 0, 0);
-    const uids = await client.search({ since: sinceDay }, { uid: true });
-    for (const uid of (uids || [])) {
-      const msg = await client.fetchOne(uid, { source: true }, { uid: true });
-      if (!msg || !msg.source) continue;
-      const p = await simpleParser(msg.source);
-      const mid = p.messageId || ('uid-' + uid);
-      if (processed.has(mid)) continue;
-      const when = p.date ? new Date(p.date) : new Date();
-      if (when <= START_AFTER) { processed.add(mid); continue; }
-      const email = await buildEmail(p);
-      if (!email.attachments.length) { processed.add(mid); saveProcessed(processed); continue; }
-      try {
-        const out = await runGmailToBackendFlow({ transport: makeTransport(), apiKey: KEY, email, assigneeCandidates: [], duplicateExistingCases: [] });
-        console.log(new Date().toISOString(), 'OK', JSON.stringify({ subject: email.subject, from: email.from_email, outcome: out.outcome, case_id: out.case_id || null }));
-      } catch (e) { console.error(new Date().toISOString(), 'ERR procesando', email.subject, '|', e.message); }
-      processed.add(mid); saveProcessed(processed);
-    }
-  } finally { try { await client.mailboxClose(); } catch {} await client.logout(); }
-}
-
-(async () => {
-  console.log('mail-watcher iniciado. Vigilando', process.env.IMAP_USER, 'desde', START_AFTER.toISOString(), '| OCR:', OCR_URL, '| API:', API);
-  const processed = loadProcessed();
-  for (;;) {
-    try { await poll(processed); }
-    catch (e) { console.error(new Date().toISOString(), 'POLL_ERR', e.message, '| resp:', e.responseText || '', '| code:', e.code || e.authenticationFailed || ''); }
-    await new Promise(r => setTimeout(r, POLL));
-  }
-})();
-JS
-
-cat > /opt/facturas/mail-watcher/docker-compose.yml <<'YML'
-services:
-  mail-watcher:
-    image: node:22-alpine
-    container_name: mail-watcher
-    working_dir: /app/mail-watcher
-    volumes: ["/opt/facturas:/app"]
-    env_file: [/opt/facturas/mail-watcher/.env]
-    command: sh -c "[ -d /app/node_modules/imapflow ] || npm --prefix /app install --no-save --no-package-lock imapflow mailparser; node watcher.js"
-    restart: unless-stopped
-    networks: [facturas]
-networks:
-  facturas: { name: floci_default, external: true }
-YML
-cd /opt/facturas/mail-watcher && docker compose up -d
+NAME="$TRACKER_SUBDOMAIN.$DOMAIN"
+DNS_IP="$(getent ahostsv4 "$NAME" | awk 'NR==1 {print $1}')"
+VPS_IP="$(curl -s4 --max-time 10 ifconfig.me || hostname -I | awk '{print $1}')"
+if [ -z "$DNS_IP" ] || [ "$DNS_IP" != "$VPS_IP" ]; then
+  echo "AVISO: crea el registro A $TRACKER_SUBDOMAIN -> $VPS_IP (DNS actual: ${DNS_IP:-no resuelve}); se omite certbot para $NAME"
+else
+  certbot --nginx -d "$NAME" --non-interactive --agree-tos -m "$CERTBOT_EMAIL" --redirect || echo "AVISO: no se pudo emitir el certificado para $NAME"
+fi
 EOF
-  ok "watcher desplegado"
+  ok "SSL procesado"
 }
 
-# =============================================================================
-step_ssl() {
-  log "SSL (Let's Encrypt) para $DOMAIN, www y p2p"
-  remote "certbot --nginx -d '$DOMAIN' -d 'www.$DOMAIN' --non-interactive --agree-tos -m '$CERTBOT_EMAIL' --redirect" || \
-    log "  (aviso: revisa que el DNS de @ y www apunte al VPS)"
-  remote "certbot --nginx -d 'p2p.$DOMAIN' --non-interactive --agree-tos -m '$CERTBOT_EMAIL' --redirect" || \
-    log "  (aviso: revisa que el DNS de p2p apunte al VPS)"
-  ok "SSL emitido"
-}
-
-# =============================================================================
 step_status() {
   log "Estado del stack en $VPS_HOST"
   remote_bash <<'EOF'
+source /root/.stack-deploy.env
 echo "== contenedores =="; docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 echo "== nginx sites =="; ls /etc/nginx/sites-enabled/
-echo "== health api =="; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/health 2>/dev/null || true
-echo "== health ocr =="; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/api/v1/health 2>/dev/null || true
+echo "== health tracker =="; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3100/api/v1/health 2>/dev/null || true
+echo "== revisión tracker =="; cat /opt/tracker/app/REVISION 2>/dev/null || true
+if docker ps -a --format '{{.Names}}' | grep -qx ocr-processor; then
+  echo "== health ocr =="; curl -s -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8000/api/v1/health 2>/dev/null || true
+fi
+echo "== certificados =="; certbot certificates 2>/dev/null | grep -E 'Certificate Name|Expiry' || true
 EOF
 }
 
-# =============================================================================
+step_retire_p2p() {
+  if [ "${1:-}" != "--yes" ]; then
+    echo "Este paso retirará el sitio p2p, hará backups y detendrá sus contenedores."
+    echo "No borrará los datos guardados ni los volúmenes. Para confirmar: bash deploy/deploy.sh retire-p2p --yes"
+    exit 1
+  fi
+  log "Retirando p2p (conservando /opt/facturas y sus volúmenes)"
+  # DOMAIN se antepone escapado: este paso no publica config, así que no depende de /root/.stack-deploy.env.
+  { printf 'DOMAIN=%q\n' "$DOMAIN"; cat <<'EOF'
+set -e
+[ -n "$DOMAIN" ] || { echo "ERROR: DOMAIN vacío" >&2; exit 1; }
+STAMP="$(date +%Y%m%d-%H%M%S)"
+mkdir -p /root/backups
+if [ -d /opt/facturas ]; then
+  tar czf "/root/backups/facturas-$STAMP.tgz" --exclude=node_modules -C /opt facturas
+  echo "backup: /root/backups/facturas-$STAMP.tgz"
+else
+  echo "ya retirado: /opt/facturas no existe"
+fi
+for vol in $(docker volume ls -q | grep '^floci_' || true); do
+  docker run --rm -v "$vol:/v" -v /root/backups:/b alpine tar czf "/b/$vol-$STAMP.tgz" -C /v .
+  echo "backup: /root/backups/$vol-$STAMP.tgz"
+done
+docker rm -f mail-watcher ocr-processor 2>/dev/null || true
+if [ -d /opt/facturas/apps/floci ]; then
+  (cd /opt/facturas/apps/floci && docker compose down --remove-orphans)
+else
+  echo "ya retirado: compose no encontrado"
+fi
+rm -f "/etc/nginx/sites-enabled/p2p.$DOMAIN" "/etc/nginx/sites-available/p2p.$DOMAIN"
+nginx -t && systemctl reload nginx
+certbot delete --cert-name "p2p.$DOMAIN" --non-interactive || true
+echo "== backups =="; ls -lh /root/backups/*"$STAMP"* 2>/dev/null || true
+echo "No se borraron /opt/facturas ni los volúmenes. Para purgar manualmente: rm -rf /opt/facturas; docker volume rm <volumen>."
+echo "Recuerda borrar el registro DNS p2p en Hostinger."
+EOF
+  } | remote_bash
+}
+
 STEP="${1:-all}"
-log "VPS=$VPS_HOST  DOMAIN=$DOMAIN  paso=$STEP"
 case "$STEP" in
-  base)     push_config; step_base ;;
-  landing)  push_config; step_landing ;;
-  facturas) push_config; step_facturas ;;
-  ocr)      push_config; step_ocr ;;
-  watcher)  push_config; step_watcher ;;
-  ssl)      push_config; step_ssl ;;
-  status)   step_status ;;
-  all)
-    push_config
-    step_base
-    step_landing
-    step_facturas
-    step_ocr
-    step_watcher
-    step_ssl
-    step_status
-    ;;
-  *) die "Paso desconocido: $STEP (usa: all|base|landing|facturas|ocr|watcher|ssl|status)" ;;
+  base) push_config; step_base ;;
+  landing) push_config; step_landing ;;
+  tracker) push_config; step_tracker ;;
+  ocr) push_config; step_ocr ;;
+  ssl) push_config; step_ssl ;;
+  status) step_status ;;
+  retire-p2p) step_retire_p2p "${2:-}" ;;
+  all) push_config; step_base; step_landing; step_tracker; step_ssl; step_status ;;
+  *) die "Paso desconocido: $STEP (usa: all|base|landing|tracker|ocr|ssl|status|retire-p2p)" ;;
 esac
 log "Listo."
