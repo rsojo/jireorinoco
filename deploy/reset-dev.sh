@@ -19,14 +19,15 @@ echo "==> Reset tracker en $VPS_HOST ..."
 ssh "${SSH_OPTS[@]}" "$SSH_USER@$VPS_HOST" "bash -s" <<'REMOTE'
 set -e
 cd /opt/tracker/app
-docker compose -p tracker stop tracker
+# </dev/null: el script llega por stdin (bash -s); docker no debe consumirlo.
+docker compose -p tracker stop tracker </dev/null
 VOL="$(docker volume ls -q --filter name=tracker_tracker-data | head -1)"
 [ -n "$VOL" ] || { echo "ERROR: no encontré el volumen tracker_tracker-data"; exit 1; }
-docker run --rm -v "$VOL":/data alpine sh -c 'rm -rf /data/*.sqlite* /data/emails'
+docker run --rm -v "$VOL":/data alpine sh -c 'rm -rf /data/*.sqlite* /data/emails' </dev/null
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 sed -i "s|^START_AFTER=.*|START_AFTER=$NOW|" /opt/tracker/.secrets /opt/tracker/app/.env
-docker compose -p tracker up -d tracker
-curl --retry 40 --retry-delay 1 --retry-connrefused -sf http://127.0.0.1:3100/api/v1/health >/dev/null
+docker compose -p tracker up -d tracker </dev/null
+curl --retry 40 --retry-delay 1 --retry-all-errors -sf http://127.0.0.1:3100/api/v1/health >/dev/null
 ADMIN_EMAIL="$(sed -n 's/^ADMIN_EMAIL=//p' /opt/tracker/app/.env)"
 ADMIN_PASSWORD="$(sed -n 's/^ADMIN_PASSWORD=//p' /opt/tracker/app/.env)"
 TOKEN="$(curl -s -H 'Content-Type: application/json' -d "{\"email\":\"$ADMIN_EMAIL\",\"password\":\"$ADMIN_PASSWORD\"}" http://127.0.0.1:3100/api/v1/auth/login | sed -n 's/.*"access_token":"\([^"]*\)".*/\1/p')"

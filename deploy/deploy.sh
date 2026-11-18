@@ -162,8 +162,9 @@ write_env() { printf '%s=%s\n' "\$1" "\$2"; }
 chmod 600 /opt/tracker/.secrets /opt/tracker/app/.env
 [ -n "\$TRACKER_SOURCE_EMAIL" ] || echo "AVISO: TRACKER_SOURCE_EMAIL está vacío; el procesador de correo quedará inactivo"
 cd /opt/tracker/app
-docker compose -p tracker up -d --build --remove-orphans
-if ! curl --retry 40 --retry-delay 2 --retry-connrefused -sf http://127.0.0.1:3100/api/v1/health >/dev/null; then docker compose -p tracker logs --tail 80; exit 1; fi
+# </dev/null: este script llega por stdin (bash -s); sin esto docker compose se "come" el resto del script.
+docker compose -p tracker up -d --build --remove-orphans </dev/null
+if ! curl --retry 40 --retry-delay 2 --retry-all-errors -sf http://127.0.0.1:3100/api/v1/health >/dev/null; then docker compose -p tracker logs --tail 80 </dev/null; exit 1; fi
 cat > "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN" <<'NGINX'
 server {
     listen 80;
@@ -183,8 +184,9 @@ NGINX
 sed -i "s/__TRACKER__/\$TRACKER_SUBDOMAIN/g; s/__DOMAIN__/\$DOMAIN/g" "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN"
 ln -sf "/etc/nginx/sites-available/\$TRACKER_SUBDOMAIN.\$DOMAIN" "/etc/nginx/sites-enabled/\$TRACKER_SUBDOMAIN.\$DOMAIN"
 nginx -t && systemctl reload nginx
-if [ -d "/etc/letsencrypt/live/\$TRACKER_SUBDOMAIN.\$DOMAIN" ]; then certbot --nginx -d "\$TRACKER_SUBDOMAIN.\$DOMAIN" --non-interactive --reinstall --redirect; fi
-docker image prune -f
+if [ -d "/etc/letsencrypt/live/\$TRACKER_SUBDOMAIN.\$DOMAIN" ]; then certbot --nginx -d "\$TRACKER_SUBDOMAIN.\$DOMAIN" --non-interactive --reinstall --redirect </dev/null; fi
+docker image prune -f </dev/null
+echo "tracker OK: revisión \$(cat /opt/tracker/app/REVISION)"
 EOF
 }
 
@@ -237,7 +239,7 @@ volumes: { ocr_tmp: {} }
 networks:
   tracker: { name: tracker_default, external: true }
 YML
-docker compose -f docker-compose.deploy.yml up -d --build
+docker compose -f docker-compose.deploy.yml up -d --build </dev/null
 docker ps --filter name=ocr-processor --format "{{.Status}}"
 EOF
   ok "OCR desplegado"
@@ -255,7 +257,7 @@ VPS_IP="$(curl -s4 --max-time 10 ifconfig.me || hostname -I | awk '{print $1}')"
 if [ -z "$DNS_IP" ] || [ "$DNS_IP" != "$VPS_IP" ]; then
   echo "AVISO: crea el registro A $TRACKER_SUBDOMAIN -> $VPS_IP (DNS actual: ${DNS_IP:-no resuelve}); se omite certbot para $NAME"
 else
-  certbot --nginx -d "$NAME" --non-interactive --agree-tos -m "$CERTBOT_EMAIL" --redirect || echo "AVISO: no se pudo emitir el certificado para $NAME"
+  certbot --nginx -d "$NAME" --non-interactive --agree-tos -m "$CERTBOT_EMAIL" --redirect </dev/null || echo "AVISO: no se pudo emitir el certificado para $NAME"
 fi
 EOF
   ok "SSL procesado"
@@ -296,18 +298,18 @@ else
   echo "ya retirado: /opt/facturas no existe"
 fi
 for vol in $(docker volume ls -q | grep '^floci_' || true); do
-  docker run --rm -v "$vol:/v" -v /root/backups:/b alpine tar czf "/b/$vol-$STAMP.tgz" -C /v .
+  docker run --rm -v "$vol:/v" -v /root/backups:/b alpine tar czf "/b/$vol-$STAMP.tgz" -C /v . </dev/null
   echo "backup: /root/backups/$vol-$STAMP.tgz"
 done
 docker rm -f mail-watcher ocr-processor 2>/dev/null || true
 if [ -d /opt/facturas/apps/floci ]; then
-  (cd /opt/facturas/apps/floci && docker compose down --remove-orphans)
+  (cd /opt/facturas/apps/floci && docker compose down --remove-orphans </dev/null)
 else
   echo "ya retirado: compose no encontrado"
 fi
 rm -f "/etc/nginx/sites-enabled/p2p.$DOMAIN" "/etc/nginx/sites-available/p2p.$DOMAIN"
 nginx -t && systemctl reload nginx
-certbot delete --cert-name "p2p.$DOMAIN" --non-interactive || true
+certbot delete --cert-name "p2p.$DOMAIN" --non-interactive </dev/null || true
 echo "== backups =="; ls -lh /root/backups/*"$STAMP"* 2>/dev/null || true
 echo "No se borraron /opt/facturas ni los volúmenes. Para purgar manualmente: rm -rf /opt/facturas; docker volume rm <volumen>."
 echo "Recuerda borrar el registro DNS p2p en Hostinger."
