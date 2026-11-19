@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" data-i18n="meta.desc"
-    content="JIRE ORINOCO — Empresa venezolana de servicios para generación eléctrica, gas y petróleo. Representación, suministro y operación en campo." />
-  <title data-i18n="meta.title">JIRE ORINOCO · Energía, Gas y Petróleo</title>
+    content="JIRE ORINOCO, C.A. — Empresa venezolana de servicios para petróleo, gas y energía: procura internacional, intervención y rehabilitación de pozos, dosificación química, estudios de yacimientos y laboratorio especializado (convenio UCV)." />
+  <title data-i18n="meta.title">JIRE ORINOCO · Procura internacional y servicios petroleros</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,18 +20,9 @@
 
   <!-- Logo sprite reutilizable -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <symbol id="jo-logo" viewBox="0 0 64 64">
-      <defs>
-        <linearGradient id="jo-hex-g" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#222a1d"/><stop offset="1" stop-color="#10130f"/>
-        </linearGradient>
-        <linearGradient id="jo-drop-g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#ffd528"/><stop offset="1" stop-color="#3fb964"/>
-        </linearGradient>
-      </defs>
-      <polygon points="32,4 56,18 56,46 32,60 8,46 8,18" fill="url(#jo-hex-g)" stroke="#3a4a32" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M32 15 C 39 26 44 31 44 38 A 12 12 0 1 1 20 38 C 20 31 25 26 32 15 Z" fill="url(#jo-drop-g)"/>
-      <path d="M21 40 C 25 36 28 44 32 40 C 35 37 39 41 43 39" fill="none" stroke="#10130f" stroke-width="2.4" stroke-linecap="round" opacity=".5"/>
+    <symbol id="jo-logo" viewBox="0 0 158.77 151.23">
+      <defs><mask id="jo-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="158.77" height="151.23"><rect width="158.77" height="151.23" fill="#fff"/><polygon points="84.25,151.4 107.46,66.95 130.68,151.4" fill="#000"/></mask></defs>
+      <g mask="url(#jo-cut)"><polygon points="0,151.23 54,30.27 108,151.23" fill="#FFD60A"/><polygon points="56.15,151.2 107.46,0 158.77,151.2" fill="currentColor"/></g>
     </symbol>
   </svg>
 
@@ -39,13 +30,14 @@
   <header class="site-header" id="top">
     <div class="wrap nav">
       <a href="#top" class="brand">
-        <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg>
-        <span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Energía · Gas · Petróleo</small></span>
+        <svg class="logo-mark" viewBox="0 0 158.77 151.23" aria-hidden="true"><use href="#jo-logo" /></svg>
+        <span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Petróleo · Gas · Energía</small></span>
       </a>
       <nav class="navlinks" aria-label="Principal">
         <a href="#servicios" data-i18n="nav.services">Servicios</a>
-        <a href="#nosotros" data-i18n="nav.about">Quiénes somos</a>
-        <a href="#productos" data-i18n="nav.products">Productos</a>
+         <a href="#procura" data-i18n="nav.procurement">Procura</a>
+         <a href="#especializados" data-i18n="nav.specialized">Especializados</a>
+         <a href="#nosotros" data-i18n="nav.about">Quiénes somos</a>
         <div class="nav-actions">
           <button class="lang-toggle" id="langToggle" type="button" aria-label="Idioma">
             <span class="lang-opt" data-lang="es">ES</span><span class="sep">/</span><span class="lang-opt" data-lang="en">EN</span>
@@ -106,22 +98,22 @@
       <div class="wrap hero-inner">
         <div class="hero-grid">
           <div class="reveal">
-            <span class="eyebrow" data-i18n="hero.eyebrow">Nueva generación de servicios energéticos · Venezuela</span>
-            <h1 data-i18n-html="hero.title">Convertimos <span class="g">gas y petróleo</span> en <span class="v">energía que produce</span></h1>
-            <p class="lede" data-i18n="hero.lede">JIRE ORINOCO es una empresa venezolana enfocada en servicios para generación eléctrica, gas y petróleo. Somos el vehículo que conecta a la industria nacional con soluciones técnicas, consumibles y equipos confiables.</p>
+             <span class="eyebrow" data-i18n="hero.eyebrow">Petróleo · Gas · Energía · Venezuela</span>
+             <h1 data-i18n-html="hero.title">Procura internacional e <span class="g">intervención de pozos</span> con <span class="v">respaldo técnico</span></h1>
+             <p class="lede" data-i18n="hero.lede">JIRE ORINOCO, C.A. es una empresa venezolana de servicios y soluciones para la industria de petróleo, gas y energía. Atendemos a operadoras, empresas mixtas y clientes industriales con dos capacidades centrales: la procura internacional y la intervención y rehabilitación de pozos.</p>
             <div class="cta-row">
-              <a href="#contacto" class="btn btn-amarillo" data-i18n="hero.cta1">Trabaja con nosotros →</a>
+               <a href="#contacto" class="btn btn-amarillo" data-i18n="hero.cta1">Contáctanos →</a>
               <a href="#servicios" class="btn btn-ghost" data-i18n="hero.cta2">Ver servicios</a>
             </div>
           </div>
           <div class="glass hero-card reveal">
             <span class="tag" data-i18n="hero.cardtag">Lo que hacemos</span>
-            <h3 data-i18n="hero.cardtitle">Operación, suministro y representación</h3>
+             <h3 data-i18n="hero.cardtitle">Procura, campo y laboratorio</h3>
             <ul>
-              <li><span class="dot"></span><span data-i18n="hero.c1">Servicio de guaya fina (slickline) para intervención de pozos</span></li>
-              <li><span class="dot v"></span><span data-i18n="hero.c2">Venta de bombas y consumibles para levantamiento artificial</span></li>
-              <li><span class="dot"></span><span data-i18n="hero.c3">Soluciones para generación eléctrica a partir de gas</span></li>
-              <li><span class="dot v"></span><span data-i18n="hero.c4">Representación de marcas y tecnología en Venezuela</span></li>
+               <li><span class="dot"></span><span data-i18n="hero.c1">Procura internacional de equipos, repuestos y equipos de perforación</span></li>
+               <li><span class="dot v"></span><span data-i18n="hero.c2">Intervención y rehabilitación de pozos (workover, RA/RC, estimulación)</span></li>
+               <li><span class="dot"></span><span data-i18n="hero.c3">Dosificación e inyección de químicos de producción</span></li>
+               <li><span class="dot v"></span><span data-i18n="hero.c4">Estudios integrados de yacimientos y laboratorio especializado (convenio UCV)</span></li>
             </ul>
           </div>
         </div>
@@ -131,56 +123,71 @@
     <!-- ===== Strip ===== -->
     <div class="strip glass">
       <div class="wrap strip-inner">
-        <span class="pill" data-i18n="strip.pill">Empresa nueva</span>
-        <span><b data-i18n="strip.1b">Base local</b> <span data-i18n="strip.1t">· operación en Venezuela</span></span>
-        <span><b data-i18n="strip.2b">Vehículo comercial</b> <span data-i18n="strip.2t">· representación de marcas</span></span>
-        <span><b data-i18n="strip.3b">Sector aguas arriba</b> <span data-i18n="strip.3t">· gas y crudo</span></span>
-        <span><b data-i18n="strip.4b">Energía</b> <span data-i18n="strip.4t">· generación a partir de gas</span></span>
+        <span class="pill" data-i18n="strip.pill">Venezuela</span>
+        <span data-i18n="strip.1">Procura internacional · EE. UU., Europa y Asia</span>
+        <span data-i18n="strip.2">Campo · intervención de pozos</span>
+        <span data-i18n="strip.3">Laboratorio · convenio UCV</span>
+        <span data-i18n="strip.4">Energía · gas-to-power</span>
       </div>
     </div>
 
-    <!-- ===== Servicios ===== -->
-    <section id="servicios" class="section">
-      <div class="wrap">
-        <div class="sec-head reveal">
-          <span class="eyebrow" data-i18n="svc.eyebrow">Servicios</span>
-          <h2 data-i18n="svc.title">Soluciones para cada etapa de la operación</h2>
-          <p data-i18n="svc.desc">Cubrimos generación eléctrica, intervención de pozos y suministro técnico, con el respaldo de tecnología seleccionada para las condiciones de los campos venezolanos.</p>
-        </div>
-        <div class="svc-grid">
-          <article class="glass svc reveal">
-            <div class="line"></div><div class="num">01</div>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" stroke-linejoin="round"/></svg></div>
-            <h3 data-i18n="svc.s1t">Generación eléctrica</h3>
-            <p data-i18n="svc.s1p">Aprovechamos el gas asociado y disponible para generar electricidad confiable en sitio, reduciendo quema y costos de energía para la operación.</p>
-          </article>
-          <article class="glass svc reveal">
-            <div class="line"></div><div class="num">02</div>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M12 2v6m0 0a4 4 0 0 1 4 4v6a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-6a4 4 0 0 1 4-4z" stroke-linejoin="round"/></svg></div>
-            <h3 data-i18n="svc.s2t">Guaya fina (slickline)</h3>
-            <p data-i18n="svc.s2p">Servicio de intervención de pozos con guaya fina para mediciones, ajustes y operaciones de mantenimiento con personal y equipos especializados.</p>
-          </article>
-          <article class="glass svc reveal">
-            <div class="line"></div><div class="num">03</div>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M3 13h4l2-6 4 12 2-6h6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-            <h3 data-i18n="svc.s3t">Gas y petróleo</h3>
-            <p data-i18n="svc.s3p">Acompañamos la operación aguas arriba con suministro, levantamiento artificial y soluciones técnicas para mantener la producción en marcha.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <section id="servicios" class="section"><div class="wrap"><div class="sec-head reveal"><span class="eyebrow" data-i18n="svc.eyebrow">Alcance operativo</span><h2 data-i18n="svc.title">Servicios de Campo y Energía</h2><p data-i18n="svc.desc">Soluciones técnicamente sólidas, en los plazos acordados y bajo estrictos estándares de calidad y seguridad.</p></div><div class="svc-grid">
+      <article class="glass svc reveal"><div class="line"></div><div class="num">01</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M12 2v20M5 7h14M5 17h14"/></svg></div><h3 data-i18n="svc.s1t">Intervención y Rehabilitación de Pozos</h3><p data-i18n="svc.s1p">Workover y reacondicionamiento (RA/RC), estimulación y rehabilitación integral de pozos para recuperar e incrementar la producción de campos maduros.</p></article>
+      <article class="glass svc reveal"><div class="line"></div><div class="num">02</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M4 12h16M8 5v14m8-14v14"/></svg></div><h3 data-i18n="svc.s2t">Tratamiento Químico de Producción</h3><p data-i18n="svc.s2p">Suministro e instalación de sistemas y skids de inyección de químicos para tratar crudo, gas y agua de producción.</p></article>
+      <article class="glass svc reveal"><div class="line"></div><div class="num">03</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M12 2v8m0 4v8M5 12h14"/></svg></div><h3 data-i18n="svc.s3t">Generación Eléctrica Gas-to-Power</h3><p data-i18n="svc.s3p">Conversión de gas asociado quemado o venteado en energía eléctrica, bajo esquema ESCO y contratos de suministro (PPA).</p></article>
+      <article class="glass svc reveal"><div class="line"></div><div class="num">04</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h8"/></svg></div><h3 data-i18n="svc.s4t">Equipos Modulares de Generación</h3><p data-i18n="svc.s4p">Importación, integración y puesta en marcha de plantas modulares de generación y equipos de compresión y acondicionamiento de gas.</p></article>
+      <article class="glass svc reveal"><div class="line"></div><div class="num">05</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><path d="M3 12h18M7 8l-4 4 4 4m10-8 4 4-4 4"/></svg></div><h3 data-i18n="svc.s5t">Servicios de Tubería y Soldadura</h3><p data-i18n="svc.s5p">Suministro, instalación, reparación y soldadura de líneas de flujo, oleoductos y gasoductos, con obras conexas de superficie.</p></article>
+      <article class="glass svc reveal"><div class="line"></div><div class="num">06</div><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#10130f" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg></div><h3 data-i18n="svc.s6t">Infraestructura Modular</h3><p data-i18n="svc.s6p">Soluciones modulares para instalaciones de campo y facilidades de superficie, en alianza con fabricantes especializados.</p></article>
+    </div></div></section>
+
+    <section id="procura" class="section"><div class="wrap"><div class="sec-head reveal"><span class="eyebrow" data-i18n="prod.eyebrow">Alcance operativo</span><h2 data-i18n="prod.title">Procura Internacional</h2><p data-i18n="prod.desc">Importación de equipos, repuestos y materiales —incluidos equipos de perforación— con red de fabricantes en EE. UU., Europa y Asia.</p></div><div class="prod-grid">
+      <article class="glass prod reveal"><div class="emblem">01</div><div><h3 data-i18n="prod.p1t">Importación de Equipos y Repuestos</h3><p data-i18n="prod.p1p">Equipos, herramientas, repuestos y materiales para la industria petrolera y energética.</p></div></article>
+      <article class="glass prod reveal"><div class="emblem">02</div><div><h3 data-i18n="prod.p2t">Suministro de Equipos de Perforación</h3><p data-i18n="prod.p2p">Equipos, herramientas, componentes y repuestos de perforación, bajo especificación del cliente.</p></div></article>
+      <article class="glass prod reveal"><div class="emblem">03</div><div><h3 data-i18n="prod.p3t">Representación de Fabricantes</h3><p data-i18n="prod.p3p">Representación técnica y comercial en Venezuela de fabricantes de EE. UU., Europa y Asia.</p></div></article>
+      <article class="glass prod reveal"><div class="emblem">04</div><div><h3 data-i18n="prod.p4t">Logística Internacional</h3><p data-i18n="prod.p4p">Compras, logística y facturación en divisas.</p></div></article>
+    </div></div></section>
+
+    <section id="especializados" class="section"><div class="wrap"><div class="sec-head reveal"><span class="eyebrow" data-i18n="spec.eyebrow">Servicios Especializados</span><h2 data-i18n="spec.title">Servicios Especializados</h2><p data-i18n="spec.desc">Tres líneas de servicio especializado que se suman a nuestra oferta de campo y procura.</p></div><div class="special-list">
+      <article class="glass special reveal">
+        <div class="special-head"><div class="special-num">01</div><div><h3 data-i18n="spec.chem.title">Dosificación e Inyección de Químicos</h3><p data-i18n="spec.chem.summary">Sistemas que inyectan la dosis exacta de químico en pozos, líneas y plantas: eléctricos, neumáticos, solares y con monitoreo remoto.</p></div></div>
+        <details><summary data-i18n="spec.details">Ver detalle</summary><div class="special-body">
+          <div class="full"><span class="sp-label" data-i18n="spec.chem.whatt">¿Qué es y por qué importa?</span><p data-i18n="spec.chem.what">Un pozo no produce solo petróleo: produce una mezcla de crudo, gas y agua que genera emulsiones, corrosión, incrustaciones, parafinas y, a veces, H₂S. El tratamiento químico controla esos problemas, pero solo funciona si la dosis es exacta y continua: si falta, el problema vuelve; si sobra, se pierde dinero. Diseñamos, instalamos y mantenemos los sistemas que inyectan esa dosis en el punto correcto, las 24 horas.</p></div>
+          <div><span class="sp-label" data-i18n="spec.chem.chemt">¿Qué químicos dosificamos?</span><ul class="sp-list"><li><strong data-i18n="spec.chem.c1n">Desemulsionantes</strong><span data-i18n="spec.chem.c1d">Separan el agua del crudo.</span></li><li><strong data-i18n="spec.chem.c2n">Inhibidores de corrosión</strong><span data-i18n="spec.chem.c2d">Protegen tuberías y equipos.</span></li><li><strong data-i18n="spec.chem.c3n">Inhibidores de incrustaciones</strong><span data-i18n="spec.chem.c3d">Evitan depósitos de sales (scale).</span></li><li><strong data-i18n="spec.chem.c4n">Dispersantes de parafinas y asfaltenos</strong><span data-i18n="spec.chem.c4d">Mantienen el flujo en la línea.</span></li><li><strong data-i18n="spec.chem.c5n">Secuestrantes de H₂S</strong><span data-i18n="spec.chem.c5d">Seguridad y calidad del crudo y el gas.</span></li><li><strong data-i18n="spec.chem.c6n">Biocidas</strong><span data-i18n="spec.chem.c6d">Controlan bacterias en agua y líneas.</span></li><li><strong data-i18n="spec.chem.c7n">Metanol</strong><span data-i18n="spec.chem.c7d">Evita hidratos en líneas de gas.</span></li><li><strong data-i18n="spec.chem.c8n">Antiespumantes</strong><span data-i18n="spec.chem.c8d">Mejoran la separación gas-líquido.</span></li></ul></div>
+          <div><span class="sp-label" data-i18n="spec.chem.wheret">¿Dónde se inyecta?</span><ul class="sp-list"><li><strong data-i18n="spec.chem.w1n">Upstream — el pozo</strong><span data-i18n="spec.chem.w1d">Cabezal y fondo de pozo, líneas de flujo y estaciones de producción.</span></li><li><strong data-i18n="spec.chem.w2n">Midstream — el transporte</strong><span data-i18n="spec.chem.w2d">Oleoductos y gasoductos: continuidad operativa y seguridad.</span></li><li><strong data-i18n="spec.chem.w3n">Downstream — el tratamiento</strong><span data-i18n="spec.chem.w3d">Plantas de tratamiento y deshidratación de crudo, y refinación.</span></li></ul><span class="sp-label sp-gap" data-i18n="spec.chem.servt">Servicio integral</span><ul class="sp-list"><li data-i18n="spec.chem.s1">Ingeniería y diseño a medida</li><li data-i18n="spec.chem.s2">Skids llave en mano</li><li data-i18n="spec.chem.s3">Instalación y puesta en marcha</li><li data-i18n="spec.chem.s4">Mantenimiento preventivo y correctivo</li><li data-i18n="spec.chem.s5">Repuestos originales</li><li data-i18n="spec.chem.s6">Capacitación técnica</li></ul></div>
+          <div class="full"><span class="sp-label" data-i18n="spec.chem.equipt">Equipos</span><ul class="sp-list two"><li><strong data-i18n="spec.chem.e1n">Accionamiento eléctrico</strong><span data-i18n="spec.chem.e1d">Bombas a pistón de alta presión, hasta 650 kg/cm² (unos 9.200 psi), para metanol y químicos, y bombas a diafragma para caudales de hasta 600 l/h. Motores normales o antiexplosivos.</span></li><li><strong data-i18n="spec.chem.e2n">Accionamiento neumático</strong><span data-i18n="spec.chem.e2d">Funcionan con gas o aire comprimido, sin electricidad; resistentes a condiciones extremas.</span></li><li><strong data-i18n="spec.chem.e3n">Accionamiento solar</strong><span data-i18n="spec.chem.e3d">Paneles y baterías: una solución limpia y autónoma para pozos remotos sin red eléctrica.</span></li><li><strong data-i18n="spec.chem.e4n">Equipos inteligentes</strong><span data-i18n="spec.chem.e4d">Monitores de caudal y de nivel de tanque con monitoreo remoto.</span></li></ul></div>
+          <p class="note full" data-i18n="spec.chem.note">Incluye instrumentación de nivel, presión y dosis, y sistemas de medición de corrosión, con tecnología de fabricante aliado certificado ISO 9001 e ISO 14001.</p>
+        </div></details>
+      </article>
+      <article class="glass special reveal">
+        <div class="special-head"><div class="special-num">02</div><div><h3 data-i18n="spec.res.title">Estudios Integrados de Yacimientos</h3><p data-i18n="spec.res.summary">Geología, geofísica, petrofísica e ingeniería en un solo modelo, para saber cuánto hay, dónde está y cómo producirlo mejor.</p></div></div>
+        <details><summary data-i18n="spec.details">Ver detalle</summary><div class="special-body">
+          <div class="full"><p data-i18n="spec.res.what">Un estudio integrado es el chequeo médico completo del yacimiento. Reunimos toda la información disponible —sísmica, registros de pozos, núcleos, análisis de fluidos e historia de producción y presiones— y la integramos en un solo modelo, con geólogos, geofísicos, petrofísicos e ingenieros de yacimientos trabajando juntos.</p><ul class="sp-q"><li data-i18n="spec.res.q1">¿Cuánto petróleo y gas hay?</li><li data-i18n="spec.res.q2">¿Dónde quedó?</li><li data-i18n="spec.res.q3">¿Cómo producirlo de la forma más rentable?</li></ul></div>
+          <ol class="sp-steps full"><li><span class="n">01</span><div><strong data-i18n="spec.res.s1t">Datos confiables</strong><span data-i18n="spec.res.s1d">Recopilamos y validamos sísmica, registros, núcleos, PVT e historia de producción y presión. Un buen estudio empieza con buenos datos.</span></div></li><li><span class="n">02</span><div><strong data-i18n="spec.res.s2t">Modelo estático</strong><span data-i18n="spec.res.s2d">La “foto” del yacimiento: estructura, fallas, espesores, porosidad, permeabilidad y saturaciones. Con él se calculan el POES y el GOES.</span></div></li><li><span class="n">03</span><div><strong data-i18n="spec.res.s3t">Modelo dinámico</strong><span data-i18n="spec.res.s3d">La “película”: cómo se mueven el petróleo, el gas y el agua. Balance de materiales, declinación y simulación cotejada con la historia.</span></div></li><li><span class="n">04</span><div><strong data-i18n="spec.res.s4t">Plan de explotación</strong><span data-i18n="spec.res.s4d">Pozos nuevos, candidatos a RA/RC, recuperación secundaria o mejorada, pronósticos de producción y evaluación económica.</span></div></li></ol>
+          <div class="full"><span class="sp-label" data-i18n="spec.res.delivt">Lo que entregamos</span><ul class="sp-list two"><li data-i18n="spec.res.d1">POES, GOES y reservas</li><li data-i18n="spec.res.d2">Mapa de oportunidades y pozos candidatos</li><li data-i18n="spec.res.d3">Pronósticos de producción</li><li data-i18n="spec.res.d4">Plan de desarrollo con evaluación económica</li></ul></div>
+        </div></details>
+      </article>
+      <article class="glass special reveal">
+        <div class="special-head"><div class="special-num">03</div><div><h3 data-i18n="spec.lab.title">Laboratorio Especializado — Convenio UCV</h3><p data-i18n="spec.lab.summary">Fluidos de perforación, cementación, PVT y pruebas de optimización de yacimientos, en convenio con la Universidad Central de Venezuela (UCV).</p></div></div>
+        <details><summary data-i18n="spec.details">Ver detalle</summary><div class="special-body">
+          <div class="lab-card"><h4 data-i18n="spec.lab.drill.title">Fluidos de Perforación</h4><span class="sp-label" data-i18n="spec.lab.simple">En sencillo</span><p data-i18n="spec.lab.drill.simple">El lodo es la sangre del pozo: enfría y lubrica la mecha, saca los ripios a superficie, sostiene las paredes del hoyo y controla la presión de la formación.</p><span class="sp-label" data-i18n="spec.lab.tests">Ensayos principales</span><ul class="sp-list"><li data-i18n="spec.lab.drill.t1">Densidad y balance de presiones</li><li data-i18n="spec.lab.drill.t2">Reología: viscosidad plástica, punto cedente y geles</li><li data-i18n="spec.lab.drill.t3">Filtrado API y HPHT, y calidad del revoque</li><li data-i18n="spec.lab.drill.t4">Contenido de sólidos y arena, pH, cloruros y MBT</li><li data-i18n="spec.lab.drill.t5">Diseño y ajuste de formulaciones base agua y base aceite</li></ul><span class="sp-label" data-i18n="spec.lab.purpose">Para qué sirve</span><p data-i18n="spec.lab.drill.purpose">Evita pegas de tubería, pérdidas de circulación, arremetidas y daño a la formación productora.</p></div>
+          <div class="lab-card"><h4 data-i18n="spec.lab.cement.title">Cementación</h4><span class="sp-label" data-i18n="spec.lab.simple">En sencillo</span><p data-i18n="spec.lab.cement.simple">El cemento sella el espacio entre el revestidor y la formación: aísla las zonas de agua, gas y petróleo, protege el revestidor y le da integridad al pozo durante toda su vida.</p><span class="sp-label" data-i18n="spec.lab.tests">Ensayos principales</span><ul class="sp-list"><li data-i18n="spec.lab.cement.t1">Tiempo de bombeabilidad a presión y temperatura de fondo</li><li data-i18n="spec.lab.cement.t2">Resistencia a la compresión del cemento fraguado</li><li data-i18n="spec.lab.cement.t3">Pérdida de filtrado y agua libre</li><li data-i18n="spec.lab.cement.t4">Reología y densidad de la lechada</li><li data-i18n="spec.lab.cement.t5">Diseño de lechadas y aditivos para cada pozo</li></ul><span class="sp-label" data-i18n="spec.lab.purpose">Para qué sirve</span><p data-i18n="spec.lab.cement.purpose">Evita canalizaciones, comunicación entre zonas y fraguado prematuro.</p></div>
+          <div class="lab-card"><h4 data-i18n="spec.lab.pvt.title">Análisis PVT</h4><span class="sp-label" data-i18n="spec.lab.simple">En sencillo</span><p data-i18n="spec.lab.pvt.simple">El PVT es el ADN del fluido del yacimiento: nos dice cómo se comportan el petróleo y el gas cuando cambian la presión y la temperatura.</p><span class="sp-label" data-i18n="spec.lab.tests">Ensayos principales</span><ul class="sp-list"><li data-i18n="spec.lab.pvt.t1">Presión de burbuja (o de rocío en gas condensado)</li><li data-i18n="spec.lab.pvt.t2">Relación gas-petróleo en solución (Rs)</li><li data-i18n="spec.lab.pvt.t3">Factores volumétricos (Bo, Bg)</li><li data-i18n="spec.lab.pvt.t4">Viscosidad, densidad y gravedad °API</li><li data-i18n="spec.lab.pvt.t5">Liberación instantánea y diferencial, y prueba de separadores</li></ul><span class="sp-label" data-i18n="spec.lab.purpose">Para qué sirve</span><p data-i18n="spec.lab.pvt.purpose">Es la base para calcular POES y reservas, diseñar las facilidades de producción y alimentar la simulación de yacimientos.</p></div>
+          <div class="lab-card"><h4 data-i18n="spec.lab.optim.title">Pruebas de Optimización de Yacimientos</h4><span class="sp-label" data-i18n="spec.lab.simple">En sencillo</span><p data-i18n="spec.lab.optim.simple">Ensayos sobre núcleos y fluidos del yacimiento que nos dicen cuánto petróleo adicional se puede recuperar y con qué método, antes de invertir en el campo.</p><span class="sp-label" data-i18n="spec.lab.tests">Ensayos principales</span><ul class="sp-list"><li data-i18n="spec.lab.optim.t1">Porosidad y permeabilidad de núcleos</li><li data-i18n="spec.lab.optim.t2">Permeabilidades relativas y presión capilar</li><li data-i18n="spec.lab.optim.t3">Mojabilidad de la roca</li><li data-i18n="spec.lab.optim.t4">Pruebas de desplazamiento: agua, polímeros y surfactantes</li><li data-i18n="spec.lab.optim.t5">Compatibilidad roca-fluido y fluido-fluido</li></ul><span class="sp-label" data-i18n="spec.lab.purpose">Para qué sirve</span><p data-i18n="spec.lab.optim.purpose">Permite aumentar el factor de recobro y elegir el método de recuperación correcto, sin arriesgar el pozo.</p></div>
+        </div></details>
+      </article>
+    </div></div></section>
 
     <!-- ===== Quiénes somos ===== -->
     <section id="nosotros" class="section">
       <div class="wrap veh-grid">
         <div class="reveal">
           <span class="eyebrow" data-i18n="about.eyebrow">Quiénes somos</span>
-          <h2 data-i18n="about.title">Tu vehículo de entrada al mercado venezolano</h2>
-          <p data-i18n="about.p">JIRE ORINOCO nace para ser el puente entre fabricantes, tecnología y operadores en Venezuela. Si tu empresa quiere vender o representar productos para el sector energético en el país, somos el socio local que pone la operación, el conocimiento del terreno y la relación con el cliente.</p>
+           <h2 data-i18n="about.title">Soluciones técnicamente sólidas para la industria energética</h2>
+           <p data-i18n="about.p">Nuestra oferta se distingue por tres líneas de servicio especializado: dosificación e inyección de químicos, estudios integrados de yacimientos y, mediante convenio con la Universidad Central de Venezuela (UCV), laboratorio de fluidos de perforación, cementación, PVT y pruebas de optimización de yacimientos. Nuestro compromiso es entregar soluciones técnicamente sólidas, en los plazos acordados y bajo estrictos estándares de calidad y seguridad.</p>
           <ul class="points">
-            <li><div class="k">1</div><div><h4 data-i18n="about.k1t">Representación local</h4><span data-i18n="about.k1p">Llevamos tu marca al mercado venezolano con presencia y soporte en sitio.</span></div></li>
-            <li><div class="k">2</div><div><h4 data-i18n="about.k2t">Suministro técnico</h4><span data-i18n="about.k2p">Bombas, consumibles y equipos para levantamiento artificial e intervención.</span></div></li>
-            <li><div class="k">3</div><div><h4 data-i18n="about.k3t">Servicio en campo</h4><span data-i18n="about.k3p">Guaya fina y soporte operativo con personal especializado.</span></div></li>
+             <li><div class="k">1</div><div><h4 data-i18n="about.k1t">Gestión Integral</h4><span data-i18n="about.k1p">Planificación, organización y ejecución de todo tipo de servicio, adaptándonos a los requerimientos de cada cliente.</span></div></li>
+             <li><div class="k">2</div><div><h4 data-i18n="about.k2t">Respaldo Técnico y Académico</h4><span data-i18n="about.k2p">Ingenieros de petróleo con experiencia de campo y laboratorio especializado en convenio con la UCV.</span></div></li>
+             <li><div class="k">3</div><div><h4 data-i18n="about.k3t">Eficiencia, Responsabilidad y Seguridad</h4><span data-i18n="about.k3p">Personal capacitado y experiencia que aseguran agilidad y entregas a tiempo.</span></div></li>
           </ul>
         </div>
         <div class="reveal">
@@ -192,42 +199,13 @@
       </div>
     </section>
 
-    <!-- ===== Productos ===== -->
-    <section id="productos" class="section">
-      <div class="wrap">
-        <div class="sec-head reveal">
-          <span class="eyebrow" data-i18n="prod.eyebrow">Productos</span>
-          <h2 data-i18n="prod.title">Bombas, consumibles y equipos</h2>
-          <p data-i18n="prod.desc">Suministramos los componentes que mantienen la producción funcionando, con disponibilidad y respaldo técnico para cada aplicación.</p>
-        </div>
-        <div class="prod-grid">
-          <article class="glass prod reveal">
-            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#f4c416" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
-            <div><h3 data-i18n="prod.p1t">Bombas para levantamiento</h3><p data-i18n="prod.p1p">Equipos de bombeo para sistemas de levantamiento artificial (BCP/ESP), seleccionados según las condiciones del pozo.</p></div>
-          </article>
-          <article class="glass prod reveal">
-            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#3fb964" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10" stroke-linecap="round"/></svg></div>
-            <div><h3 data-i18n="prod.p2t">Consumibles e insumos</h3><p data-i18n="prod.p2p">Repuestos, accesorios y consumibles para mantener la continuidad operativa y reducir tiempos muertos.</p></div>
-          </article>
-          <article class="glass prod reveal">
-            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#f4c416" stroke-width="2"><path d="M12 2v20M7 6l10 12M17 6 7 18" stroke-linecap="round"/></svg></div>
-            <div><h3 data-i18n="prod.p3t">Equipos de guaya fina</h3><p data-i18n="prod.p3p">Herramientas y componentes para operaciones de slickline en intervención de pozos.</p></div>
-          </article>
-          <article class="glass prod reveal">
-            <div class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="#3fb964" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6v6H9z"/></svg></div>
-            <div><h3 data-i18n="prod.p4t">Soluciones de generación</h3><p data-i18n="prod.p4p">Unidades modulares y componentes para generación eléctrica a partir de gas en sitio.</p></div>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ===== Contacto ===== -->
     <section id="contacto" class="final">
       <div class="wrap glass final-card">
         <span class="eyebrow" data-i18n="contact.eyebrow">Hablemos</span>
-        <h2 data-i18n="contact.title">Construyamos juntos la operación que Venezuela necesita</h2>
-        <p data-i18n="contact.desc">Ya seas operador, fabricante o quieras representar tu tecnología en el país, JIRE ORINOCO es el vehículo para entrar y crecer en el mercado energético venezolano.</p>
-        <a href="mailto:presidencia@jireorinoco.com" class="btn btn-amarillo">presidencia@jireorinoco.com</a>
+         <h2 data-i18n="contact.title">Hablemos de tu próximo proyecto</h2>
+         <p data-i18n="contact.desc">Operadoras, empresas mixtas y clientes industriales: cuéntanos qué necesitas en procura, campo o laboratorio.</p>
+         <div class="contact-buttons"><a href="mailto:presidencia@jireorinoco.com" class="btn btn-amarillo" data-i18n="contact.email1">presidencia@jireorinoco.com</a><a href="mailto:contact@jireorinoco.com" class="btn btn-ghost" data-i18n="contact.email2">contact@jireorinoco.com</a></div>
         <div class="contact-extra">
           <a href="tel:+584122948509">+58 412 2948509</a>
           <span>Av. Francisco de Miranda, Multicentro Empresarial del Este, Torre Miranda, Bloque A, Piso 4, Oficina 4-6, Chacao, Caracas — Venezuela · CP 01060</span>
@@ -241,19 +219,20 @@
     <div class="wrap">
       <div class="foot-grid">
         <div class="foot-brand">
-          <a href="#top" class="brand"><svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true"><use href="#jo-logo" /></svg><span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Energía · Gas · Petróleo</small></span></a>
-          <p data-i18n="footer.about">Empresa venezolana de servicios para generación eléctrica, gas y petróleo. Representación, suministro y operación en campo.</p>
+           <a href="#top" class="brand"><svg class="logo-mark" viewBox="0 0 158.77 151.23" aria-hidden="true"><use href="#jo-logo" /></svg><span class="brand-txt">JIRE ORINOCO<small data-i18n="brand.sub">Petróleo · Gas · Energía</small></span></a>
+           <p data-i18n="footer.about">Empresa venezolana de servicios para petróleo, gas y energía: procura internacional, intervención de pozos y servicios especializados.</p>
         </div>
         <div>
           <h4 data-i18n="footer.servicesh">Servicios</h4>
-          <a href="#servicios" data-i18n="footer.s1">Generación eléctrica</a>
-          <a href="#servicios" data-i18n="footer.s2">Guaya fina</a>
-          <a href="#productos" data-i18n="footer.s3">Bombas y consumibles</a>
-          <a href="#nosotros" data-i18n="footer.s4">Representación</a>
+           <a href="#servicios" data-i18n="footer.s1">Intervención de pozos</a>
+           <a href="#procura" data-i18n="footer.s2">Procura internacional</a>
+           <a href="#especializados" data-i18n="footer.s3">Dosificación química</a>
+           <a href="#especializados" data-i18n="footer.s4">Laboratorio UCV</a>
         </div>
         <div>
-          <h4 data-i18n="footer.contacth">Contacto</h4>
-          <a href="mailto:presidencia@jireorinoco.com">presidencia@jireorinoco.com</a>
+           <h4 data-i18n="footer.contacth">Contacto</h4>
+           <a href="mailto:presidencia@jireorinoco.com" data-i18n="contact.email1">presidencia@jireorinoco.com</a>
+           <a href="mailto:contact@jireorinoco.com" data-i18n="contact.email2">contact@jireorinoco.com</a>
           <a href="tel:+584122948509">+58 412 2948509</a>
           <a href="https://maps.google.com/?q=Multicentro+Empresarial+del+Este+Torre+Miranda+Chacao+Caracas" target="_blank" rel="noopener" data-i18n="footer.addr">Torre Miranda, Chacao, Caracas — Venezuela</a>
         </div>
