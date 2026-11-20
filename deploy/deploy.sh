@@ -155,6 +155,7 @@ write_env() { printf '%s=%s\n' "\$1" "\$2"; }
   write_env DEEPSEEK_API_KEY "\$DEEPSEEK_API_KEY"; write_env DEEPSEEK_MODEL "\$DEEPSEEK_MODEL"
   write_env IMAP_HOST "\$IMAP_HOST"; write_env IMAP_PORT "\$IMAP_PORT"; write_env IMAP_USER "\$IMAP_USER"; write_env IMAP_PASS "\$IMAP_PASS"
   write_env IMAP_MAILBOX "\$TRACKER_IMAP_MAILBOX"; write_env POLL_SECONDS "\$IMAP_POLL_SECONDS"; write_env START_AFTER "\$START_AFTER"; write_env SOURCE_EMAIL "\$TRACKER_SOURCE_EMAIL"
+  write_env VAPID_SUBJECT "https://${TRACKER_SUBDOMAIN:-tracker}.$DOMAIN"
   [ -z "\$TRACKER_ASSIGNMENT_SUBJECT_REGEX" ] || write_env ASSIGNMENT_SUBJECT_REGEX "\$TRACKER_ASSIGNMENT_SUBJECT_REGEX"
   [ -z "\$TRACKER_PAYMENT_SUBJECT_REGEX" ] || write_env PAYMENT_SUBJECT_REGEX "\$TRACKER_PAYMENT_SUBJECT_REGEX"
   if [ "\$TRACKER_OCR" = true ]; then write_env OCR_URL http://ocr-processor:8000; fi
