@@ -65,8 +65,7 @@ img,svg { display:block; }
   background:color-mix(in srgb, var(--bg) 70%, transparent); border-bottom:1px solid var(--line); }
 .nav { display:flex; align-items:center; justify-content:space-between; height:68px; }
 .brand { display:flex; align-items:center; gap:11px; font-weight:800; letter-spacing:.02em; font-family:"Sora",sans-serif; }
-.logo-mark { width:auto; height:34px; flex:none; color:#fff; filter:drop-shadow(0 3px 8px rgba(255,214,10,.25)); }
-html[data-theme="light"] .logo-mark { color:#1B4332; }
+.logo-mark { width:auto; height:42px; flex:none; filter:drop-shadow(0 3px 8px rgba(255,214,10,.18)); }
 .brand-txt { display:flex; flex-direction:column; line-height:1.1; font-size:.98rem; }
 .brand-txt small { color:var(--soft); font-weight:500; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; }
 .navlinks { display:flex; gap:26px; align-items:center; }
@@ -224,6 +223,7 @@ html[data-theme="light"] .sp-q li { background:rgba(244,196,22,.3); border-color
 .site-footer { border-top:1px solid var(--line); padding:54px 0 34px; }
 .foot-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:34px; margin-bottom:36px; }
 .foot-brand .brand { margin-bottom:14px; }
+.site-footer .foot-grid a.brand { display:flex; padding:0; font-size:inherit; color:var(--text); }
 .foot-brand p { color:var(--soft); font-size:.92rem; max-width:320px; }
 .site-footer h4 { font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:var(--soft); margin-bottom:16px; }
 .site-footer .foot-grid a { color:var(--muted); display:block; padding:5px 0; font-size:.92rem; }

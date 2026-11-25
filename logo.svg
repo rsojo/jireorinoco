@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="JIRE ORINOCO">
-  <rect width="64" height="64" rx="9" fill="#1B4332"/>
-  <g transform="translate(9 9) scale(.29)">
-    <defs><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="158.77" height="151.23"><rect width="158.77" height="151.23" fill="#fff"/><polygon points="84.25,151.4 107.46,66.95 130.68,151.4" fill="#000"/></mask></defs>
-    <g mask="url(#cut)"><polygon points="0,151.23 54,30.27 108,151.23" fill="#FFD60A"/><polygon points="56.15,151.2 107.46,0 158.77,151.2" fill="#FFFFFF"/></g>
-  </g>
-</svg>
