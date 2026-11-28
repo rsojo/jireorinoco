@@ -57,7 +57,12 @@ push_config() {
     printf 'TRACKER_OCR=%q\n' "${TRACKER_OCR:-false}"
     printf 'DEEPSEEK_API_KEY=%q\n' "${DEEPSEEK_API_KEY:-}"
     printf 'DEEPSEEK_MODEL=%q\n' "${DEEPSEEK_MODEL:-deepseek-chat}"
-    printf 'IMAP_HOST=%q\n' "${IMAP_HOST:-imap.titan.email}"
+    # TRACKER_IMAP_ENABLED=false deja el lector de correo apagado (IMAP_HOST vacío) aunque se redespliegue.
+    if [ "${TRACKER_IMAP_ENABLED:-true}" = "false" ]; then
+      printf 'IMAP_HOST=\n'
+    else
+      printf 'IMAP_HOST=%q\n' "${IMAP_HOST:-imap.titan.email}"
+    fi
     printf 'IMAP_PORT=%q\n' "${IMAP_PORT:-993}"
     printf 'IMAP_USER=%q\n' "${IMAP_USER:-}"
     printf 'IMAP_PASS=%q\n' "${IMAP_PASS:-}"
